@@ -21,7 +21,7 @@ export async function uploadToGoogleDrive(buffer: Buffer, filename: string, mime
 
   const fileMetadata = {
     name: filename,
-    parents: [FOLDER_ID],
+    parents: [FOLDER_ID as string],
   };
   const media = {
     mimeType: mimetype,
@@ -36,7 +36,7 @@ export async function uploadToGoogleDrive(buffer: Buffer, filename: string, mime
 
   // Make file public
   await drive.permissions.create({
-    fileId: file.data.id!,
+    fileId: String(file.data.id),
     requestBody: { role: 'reader', type: 'anyone' },
   });
 
