@@ -2,18 +2,20 @@ import mongoose from 'mongoose';
 
 const MONGODB_URI = process.env.MONGODB_URI || 'mongodb://localhost:27017/artist-website';
 
+// Ensure MONGODB_URI is defined
 if (!MONGODB_URI) {
   throw new Error('Please define the MONGODB_URI environment variable inside .env.local');
 }
 
-// Define a global type for caching the mongoose connection
+// Define a type-safe global cache for the mongoose connection
 interface MongooseCache {
   conn: typeof mongoose | null;
   promise: Promise<typeof mongoose> | null;
 }
 
-// Use `globalThis` to define a cache with a proper type
+// Extend the globalThis type to include the mongoose cache
 declare global {
+  // eslint-disable-next-line no-var
   var mongoose: MongooseCache | undefined;
 }
 
@@ -33,16 +35,14 @@ async function dbConnect(): Promise<typeof mongoose> {
       bufferCommands: false,
     };
 
-    cached.promise = mongoose.connect(MONGODB_URI, opts).then((mongooseInstance) => {
-      return mongooseInstance;
-    });
+    cached.promise = mongoose.connect(MONGODB_URI, opts).then((mongooseInstance) => mongooseInstance);
   }
 
   try {
     cached.conn = await cached.promise;
-  } catch (e) {
+  } catch (err) {
     cached.promise = null;
-    throw e;
+    throw err;
   }
 
   return cached.conn;
