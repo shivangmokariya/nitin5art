@@ -15,7 +15,7 @@ export default function HeroImage() {
 
   return (
     <div className="relative animate-slide-up">
-      <div className="relative w-full aspect-[3/1] rounded-2xl overflow-hidden shadow-2xl">
+      <div className="relative w-full aspect-[6/8] rounded-2xl overflow-hidden shadow-2xl">
         <Image
           src={url}
           alt="Hero"

@@ -1,10 +1,16 @@
 import { NextRequest, NextResponse } from 'next/server';
-import path from 'path';
-import fs from 'fs/promises';
+import { uploadToGoogleDrive } from '@/lib/googleDriveUpload';
 
 export const runtime = 'nodejs';
 
+export const config = {
+  api: {
+    bodyParser: false, // We'll handle parsing manually
+  },
+};
+
 export async function POST(request: NextRequest) {
+  // Parse multipart form data
   const formData = await request.formData();
   const file = formData.get('file') as File;
 
@@ -12,14 +18,15 @@ export async function POST(request: NextRequest) {
     return NextResponse.json({ error: 'No file uploaded' }, { status: 400 });
   }
 
-  const buffer = Buffer.from(await file.arrayBuffer());
-  const uploadsDir = path.join(process.cwd(), 'public', 'uploads');
-  await fs.mkdir(uploadsDir, { recursive: true });
+  const arrayBuffer = await file.arrayBuffer();
+  const buffer = Buffer.from(arrayBuffer);
+  const filename = file.name;
+  const mimetype = file.type;
 
-  const filename = `${Date.now()}-${file.name.replace(/[^a-zA-Z0-9.]/g, '_')}`;
-  const filepath = path.join(uploadsDir, filename);
-  await fs.writeFile(filepath, buffer);
-
-  const imageUrl = `/uploads/${filename}`;
-  return NextResponse.json({ url: imageUrl });
+  try {
+    const url = await uploadToGoogleDrive(buffer, filename, mimetype);
+    return NextResponse.json({ url });
+  } catch (error) {
+    return NextResponse.json({ error: 'Failed to upload to Google Drive', details: error?.message }, { status: 500 });
+  }
 } 

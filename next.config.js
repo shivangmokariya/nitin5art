@@ -1,9 +1,12 @@
 /** @type {import('next').NextConfig} */
 const nextConfig = {
   images: {
-    domains: ['localhost', 'your-domain.com'],
-    formats: ['image/webp', 'image/avif'],
-    unoptimized: true, // Allow unoptimized images for local uploads
+    remotePatterns: [
+      {
+        protocol: 'https',
+        hostname: 'drive.google.com',
+      },
+    ],
   },
   // Enable source maps in development
   webpack: (config, { dev, isServer }) => {
