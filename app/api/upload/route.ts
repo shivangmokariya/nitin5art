@@ -3,12 +3,6 @@ import { uploadToGoogleDrive } from '@/lib/googleDriveUpload';
 
 export const runtime = 'nodejs';
 
-export const config = {
-  api: {
-    bodyParser: false, // We'll handle parsing manually
-  },
-};
-
 export async function POST(request: NextRequest) {
   // Parse multipart form data
   const formData = await request.formData();
