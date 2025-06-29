@@ -21,6 +21,9 @@ export async function POST(request: NextRequest) {
     const url = await uploadToGoogleDrive(buffer, filename, mimetype);
     return NextResponse.json({ url });
   } catch (error) {
-    return NextResponse.json({ error: 'Failed to upload to Google Drive', details: error?.message }, { status: 500 });
+    return NextResponse.json({
+      error: 'Failed to upload to Google Drive',
+      details: error instanceof Error ? error.message : String(error)
+    }, { status: 500 });
   }
 } 
