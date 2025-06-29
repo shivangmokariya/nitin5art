@@ -1,42 +1,33 @@
-# Professional Artist Website
+# Professional Artist Gallery Website
 
-A modern, SEO-optimized website for showcasing paint sketch artwork with an admin panel for managing content and customer inquiries.
+A modern, responsive website for showcasing artwork with a beautiful gallery, admin panel, and contact system. Built with Next.js 14, TypeScript, Tailwind CSS, and MongoDB.
 
-## Features
+## 🎨 Features
 
-### Customer-Facing Website
-- **Home Page**: Featured artwork carousel and artist introduction
-- **Gallery**: Browse artwork with search and filtering capabilities
-- **Individual Artwork Pages**: Detailed views with inquiry forms
-- **SEO Optimized**: Meta tags, structured data, sitemap, and robots.txt
-- **Mobile Responsive**: Fully responsive design for all devices
-- **Search Functionality**: Full-text search across artwork titles and descriptions
+### Public Features
+- **Beautiful Gallery**: Responsive grid layout with filtering and search
+- **Artwork Details**: Individual artwork pages with detailed information
+- **Artist Profile**: About page with artist information and portfolio
+- **Contact System**: Inquiry form for artwork and commission requests
+- **SEO Optimized**: Meta tags, Open Graph, and structured data
+- **Responsive Design**: Mobile-first design that works on all devices
 
-### Admin Panel
-- **Authentication**: Secure admin login with JWT
-- **Dashboard**: Overview of statistics and quick actions
-- **Artwork Management**: Add, edit, and delete paintings with SEO metadata
+### Admin Features
+- **Secure Login**: JWT-based authentication system
+- **Artwork Management**: Add, edit, and delete artwork
+- **Image Upload**: Upload and manage artwork images
+- **Site Settings**: Customize hero image, artist image, and site content
 - **Inquiry Management**: View and manage customer inquiries
-- **Analytics**: View performance metrics and insights
+- **Analytics Dashboard**: View site statistics and performance
 
-## Tech Stack
+## 🚀 Quick Start
 
-- **Frontend**: Next.js 14 with App Router
-- **Backend**: Next.js API Routes
-- **Database**: MongoDB with Mongoose ODM
-- **Styling**: Tailwind CSS
-- **Authentication**: JWT with HTTP-only cookies
-- **Forms**: React Hook Form
-- **Icons**: Lucide React
-- **Deployment**: Vercel (recommended)
-
-## Prerequisites
-
+### Prerequisites
 - Node.js 18+ 
-- MongoDB (local or MongoDB Atlas)
+- MongoDB (local or cloud)
 - npm or yarn
 
-## Installation
+### Installation
 
 1. **Clone the repository**
    ```bash
@@ -57,155 +48,145 @@ A modern, SEO-optimized website for showcasing paint sketch artwork with an admi
    Edit `.env.local` with your configuration:
    ```env
    MONGODB_URI=mongodb://localhost:27017/artist-website
-   JWT_SECRET=your-super-secret-jwt-key
-   NEXT_PUBLIC_BASE_URL=http://localhost:3000
+   NEXTAUTH_URL=http://localhost:3000
+   NEXTAUTH_SECRET=your-nextauth-secret-key-here
+   JWT_SECRET=your-jwt-secret-key-here
+   ADMIN_EMAIL=admin@example.com
+   ADMIN_PASSWORD=your-admin-password-here
    ```
 
-4. **Set up the database**
-   
-   If using MongoDB locally:
-   ```bash
-   # Start MongoDB (if not already running)
-   mongod
-   ```
-   
-   If using MongoDB Atlas:
-   - Create a cluster at [MongoDB Atlas](https://www.mongodb.com/atlas)
-   - Get your connection string and update `MONGODB_URI`
-
-5. **Create admin user**
-   
-   The application will create a default admin user on first run, or you can create one manually:
-   ```javascript
-   // In MongoDB shell or Compass
-   use artist-website
-   db.admins.insertOne({
-     username: "admin",
-     email: "admin@example.com",
-     password: "$2a$12$...", // bcrypt hash of your password
-     role: "admin",
-     createdAt: new Date(),
-     updatedAt: new Date()
-   })
-   ```
-
-6. **Run the development server**
+4. **Start the development server**
    ```bash
    npm run dev
    ```
 
-7. **Open your browser**
-   Navigate to [http://localhost:3000](http://localhost:3000)
+5. **Access the application**
+   - Website: http://localhost:3000
+   - Admin Panel: http://localhost:3000/admin
 
-## Project Structure
+## 📁 Project Structure
 
 ```
 artist-website/
-├── app/                    # Next.js App Router
+├── app/                    # Next.js 14 app directory
 │   ├── admin/             # Admin panel pages
 │   ├── api/               # API routes
 │   ├── gallery/           # Gallery pages
+│   ├── about/             # About page
+│   ├── contact/           # Contact page
 │   ├── globals.css        # Global styles
 │   ├── layout.tsx         # Root layout
-│   ├── page.tsx           # Home page
-│   ├── robots.ts          # Robots.txt
-│   └── sitemap.ts         # Sitemap
+│   └── page.tsx           # Home page
 ├── components/            # Reusable components
+│   ├── Header.tsx         # Navigation header
+│   ├── Footer.tsx         # Site footer
+│   ├── FeaturedGallery.tsx # Featured artwork component
+│   ├── InquiryForm.tsx    # Contact form
+│   ├── ArtistImage.tsx    # Artist profile image
+│   └── HeroImage.tsx      # Hero section image
 ├── lib/                   # Utility functions
-├── models/                # MongoDB schemas
+│   ├── mongodb.ts         # Database connection
+│   ├── siteUtils.ts       # Site settings utilities
+│   ├── statsUtils.ts      # Statistics utilities
+│   ├── categoryUtils.ts   # Category management
+│   ├── seedAdmin.ts       # Admin user seeding
+│   └── checkDb.ts         # Database checking utilities
+├── models/                # MongoDB models
+│   ├── Painting.ts        # Artwork model
+│   ├── Inquiry.ts         # Contact inquiry model
+│   ├── Admin.ts           # Admin user model
+│   └── SiteSetting.ts     # Site settings model
 ├── public/                # Static assets
-└── types/                 # TypeScript types
+├── tailwind.config.js     # Tailwind CSS configuration
+└── package.json           # Dependencies and scripts
 ```
 
-## API Endpoints
+## 🎯 Key Components
 
-### Paintings
-- `GET /api/paintings` - Get paintings with filters
-- `POST /api/paintings` - Create new painting
-- `GET /api/paintings/[id]` - Get single painting
-- `PUT /api/paintings/[id]` - Update painting
-- `DELETE /api/paintings/[id]` - Delete painting
+### Home Page (`app/page.tsx`)
+- Hero section with dynamic content
+- Featured artwork gallery
+- Category showcase
+- Artist introduction
+- Call-to-action sections
 
-### Inquiries
-- `GET /api/inquiries` - Get inquiries with filters
-- `POST /api/inquiries` - Create new inquiry
-- `PUT /api/inquiries/[id]` - Update inquiry status
-- `DELETE /api/inquiries/[id]` - Delete inquiry
+### Gallery (`app/gallery/page.tsx`)
+- Responsive grid layout
+- Search and filtering
+- Pagination
+- Category filtering
+- Individual artwork pages
 
-### Authentication
-- `POST /api/auth/login` - Admin login
-- `POST /api/auth/logout` - Admin logout
-- `GET /api/auth/check` - Check authentication status
+### Admin Panel (`app/admin/`)
+- Secure authentication
+- Artwork management
+- Image upload system
+- Site settings management
+- Inquiry management
 
-## SEO Features
+### API Routes (`app/api/`)
+- `/api/paintings` - Artwork CRUD operations
+- `/api/inquiries` - Contact form submissions
+- `/api/auth/*` - Authentication endpoints
+- `/api/settings/*` - Site settings management
+- `/api/upload` - Image upload handling
 
-- **Meta Tags**: Dynamic meta tags for all pages
-- **Open Graph**: Social media sharing optimization
-- **Structured Data**: Schema.org markup for artwork
-- **Sitemap**: Automatic XML sitemap generation
-- **Robots.txt**: Search engine crawling instructions
-- **Image Optimization**: Next.js Image component with lazy loading
-- **Performance**: Server-side rendering and optimization
-
-## Deployment
-
-### Vercel (Recommended)
-
-1. **Push to GitHub**
-   ```bash
-   git add .
-   git commit -m "Initial commit"
-   git push origin main
-   ```
-
-2. **Deploy to Vercel**
-   - Connect your GitHub repository to Vercel
-   - Set environment variables in Vercel dashboard
-   - Deploy automatically on push
-
-### Environment Variables for Production
-
-```env
-MONGODB_URI=mongodb+srv://username:password@cluster.mongodb.net/artist-website
-JWT_SECRET=your-production-jwt-secret
-NEXT_PUBLIC_BASE_URL=https://your-domain.com
-NEXT_PUBLIC_GA_ID=G-XXXXXXXXXX
-```
-
-## Customization
+## 🛠️ Customization
 
 ### Styling
-- Edit `tailwind.config.js` for theme customization
-- Modify `app/globals.css` for global styles
-- Update color scheme in the config file
+The project uses Tailwind CSS with a custom color palette:
+- **Primary**: Orange/amber tones for branding
+- **Secondary**: Gray tones for text and backgrounds
 
-### Content
-- Update metadata in `app/layout.tsx`
-- Modify hero content in `app/page.tsx`
-- Add your artwork through the admin panel
+### Content Management
+- Artist information is managed through the admin panel
+- Site settings include hero image, artist image, and about text
+- All content is stored in MongoDB for easy updates
 
-### Features
-- Add new API endpoints in `app/api/`
-- Create new components in `components/`
-- Extend database schemas in `models/`
+### Adding New Features
+1. Create new components in the `components/` directory
+2. Add new pages in the `app/` directory
+3. Create API routes in `app/api/` for backend functionality
+4. Add new models in the `models/` directory if needed
 
-## Security Considerations
+## 🔧 Development
 
-- JWT tokens are stored in HTTP-only cookies
-- Passwords are hashed using bcrypt
-- Input validation on all forms
-- CORS protection on API routes
-- Rate limiting recommended for production
+### Available Scripts
+```bash
+npm run dev          # Start development server
+npm run build        # Build for production
+npm run start        # Start production server
+npm run lint         # Run ESLint
+```
 
-## Performance Optimization
+### Database Setup
+The application automatically creates:
+- Admin user (admin@admin.com / Admin@123)
+- Default site settings
+- Required database indexes
 
-- Image optimization with Next.js Image
-- Lazy loading for gallery images
-- Pagination for large datasets
-- Caching strategies for API responses
-- Bundle optimization with Next.js
+### Environment Variables
+See `env.example` for all available environment variables and their descriptions.
 
-## Contributing
+## 🚀 Deployment
+
+### Vercel (Recommended)
+1. Connect your GitHub repository to Vercel
+2. Set environment variables in Vercel dashboard
+3. Deploy automatically on push to main branch
+
+### Other Platforms
+The application can be deployed to any platform that supports Next.js:
+- Netlify
+- Railway
+- DigitalOcean App Platform
+- AWS Amplify
+
+## 📝 License
+
+This project is licensed under the MIT License - see the LICENSE file for details.
+
+## 🤝 Contributing
 
 1. Fork the repository
 2. Create a feature branch
@@ -213,26 +194,10 @@ NEXT_PUBLIC_GA_ID=G-XXXXXXXXXX
 4. Add tests if applicable
 5. Submit a pull request
 
-## License
+## 📞 Support
 
-This project is licensed under the MIT License.
+For support or questions, please open an issue on GitHub or contact the development team.
 
-## Support
+---
 
-For support and questions:
-- Create an issue in the repository
-- Check the documentation
-- Review the code comments
-
-## Roadmap
-
-- [ ] Image upload functionality
-- [ ] Advanced analytics dashboard
-- [ ] Email notifications for inquiries
-- [ ] Multi-language support
-- [ ] E-commerce integration
-- [ ] Blog/News section
-- [ ] Social media integration
-- [ ] Advanced search filters
-- [ ] User accounts for customers
-- [ ] Wishlist functionality 
+**Built with ❤️ using Next.js, TypeScript, and Tailwind CSS** 
