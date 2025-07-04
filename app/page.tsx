@@ -10,6 +10,7 @@ import ArtistImage from '@/components/ArtistImage';
 import { getCategoryData } from '@/lib/categoryUtils';
 import { getSiteStats } from '@/lib/statsUtils';
 import { getSiteSettings } from '@/lib/siteUtils';
+import DynamicAboutText from "@/components/DynamicAboutText";
 
 export const metadata: Metadata = {
   title: 'Professional Artist Gallery | Paint Sketch Artwork',
@@ -28,7 +29,7 @@ export default async function HomePage() {
     getSiteStats(),
     getSiteSettings()
   ]);
-
+console.log(categoryData,'categoryData');
   return (
     <>
       <Header />
@@ -166,7 +167,7 @@ export default async function HomePage() {
                 Meet the Artist
               </h2>
               <p className="text-lg text-secondary-700 mb-6 leading-relaxed">
-                {siteSettings.aboutText}
+                <DynamicAboutText />
               </p>
               <p className="text-lg text-secondary-700 mb-8 leading-relaxed">
                 My work spans various styles and subjects, from serene landscapes to expressive 

@@ -22,7 +22,7 @@ export default function ArtistSettingsPage() {
   });
   const [loading, setLoading] = useState(false);
   const [uploading, setUploading] = useState(false);
-
+  console.log(settings,'settings');
   useEffect(() => {
     fetchSettings();
   }, []);
@@ -32,7 +32,7 @@ export default function ArtistSettingsPage() {
       const response = await fetch('/api/settings/artist-image');
       const data = await response.json();
       if (data.artistImageUrl) {
-        setSettings(prev => ({ ...prev, artistImageUrl: data.artistImageUrl }));
+        setSettings(prev => ({ ...prev, artistImageUrl: data.artistImageUrl, aboutText:data.aboutText, artistName:data.artistName, artistExperience:data.artistExperience }));
       }
     } catch (error) {
       console.error('Error fetching settings:', error);
