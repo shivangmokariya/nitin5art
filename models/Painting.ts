@@ -6,7 +6,6 @@ export interface IPainting extends mongoose.Document {
   category: string;
   medium: string;
   size: string;
-  price: number;
   imageUrl: string;
   tags: string[];
   seo: {
@@ -37,7 +36,7 @@ const PaintingSchema = new mongoose.Schema<IPainting>(
     category: {
       type: String,
       required: [true, 'Please provide a category'],
-      enum: ['landscape', 'portrait', 'abstract', 'still-life', 'other'],
+      enum: ['tanjore-paintings', 'sketch-painting', 'oil-paintings', 'portraits'],
     },
     medium: {
       type: String,
@@ -48,11 +47,6 @@ const PaintingSchema = new mongoose.Schema<IPainting>(
       type: String,
       // required: [true, 'Please provide the size'],
       trim: true,
-    },
-    price: {
-      type: Number,
-      required: [true, 'Please provide a price'],
-      min: [0, 'Price cannot be negative'],
     },
     imageUrl: {
       type: String,

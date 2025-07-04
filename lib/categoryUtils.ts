@@ -13,10 +13,10 @@ export async function getCategoryData(): Promise<CategoryData[]> {
   await dbConnect();
 
   const categories = [
-    { key: 'landscape', name: 'Landscapes', description: 'Breathtaking natural scenes' },
-    { key: 'portrait', name: 'Portraits', description: 'Capturing human emotion' },
-    { key: 'abstract', name: 'Abstract', description: 'Modern artistic expression' },
-    { key: 'still-life', name: 'Still Life', description: 'Timeless beauty in objects' }
+    { key: 'tanjore-paintings', name: 'Tanjore Paintings', description: 'Traditional South Indian art with rich colors and gold leaf' },
+    { key: 'sketch-painting', name: 'Sketch Paintings', description: 'Detailed pencil and charcoal artwork' },
+    { key: 'oil-paintings', name: 'Oil Paintings', description: 'Classic oil on canvas masterpieces' },
+    { key: 'portraits', name: 'Portraits', description: 'Capturing human emotion and character' }
   ];
 
   const categoryData: CategoryData[] = [];

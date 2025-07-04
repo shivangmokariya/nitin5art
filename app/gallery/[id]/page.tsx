@@ -16,7 +16,6 @@ interface Painting {
   category: string;
   medium: string;
   size: string;
-  price: number;
   imageUrl: string;
   tags: string[];
   seo: {
@@ -48,19 +47,18 @@ export default function PaintingPage() {
           // Fallback to sample data
           setPainting({
             _id: params.id as string,
-            title: 'Mountain Serenity',
-            description: 'A peaceful mountain landscape captured in warm tones. This piece explores the tranquility of nature through a harmonious blend of earthy colors and soft brushstrokes. The composition draws the viewer into a serene world where time seems to stand still.',
-            category: 'landscape',
-            medium: 'Oil on Canvas',
+            title: 'Divine Tanjore',
+            description: 'Traditional Tanjore painting with gold leaf and rich colors. This piece showcases the ancient South Indian art form with intricate details, vibrant colors, and gold leaf embellishments.',
+            category: 'tanjore-paintings',
+            medium: 'Traditional Tanjore',
             size: '24" x 36"',
-            price: 1200,
             imageUrl: '/sample-artwork-1.jpg',
-            tags: ['landscape', 'mountains', 'nature', 'serene', 'oil painting'],
+            tags: ['tanjore', 'traditional', 'gold leaf', 'south indian', 'divine'],
             seo: {
-              title: 'Mountain Serenity - Original Oil Painting',
-              description: 'A peaceful mountain landscape captured in warm tones. Original oil painting by professional artist.',
-              alt: 'Mountain landscape painting in warm tones',
-              keywords: ['mountain', 'landscape', 'oil painting', 'serene', 'nature']
+              title: 'Divine Tanjore - Traditional South Indian Art',
+              description: 'Traditional Tanjore painting with gold leaf and rich colors. Original artwork by professional artist.',
+              alt: 'Traditional Tanjore painting with gold leaf',
+              keywords: ['tanjore', 'traditional', 'gold leaf', 'south indian', 'divine']
             },
             views: 156,
             featured: true,
@@ -72,19 +70,18 @@ export default function PaintingPage() {
         // Fallback to sample data
         setPainting({
           _id: params.id as string,
-          title: 'Mountain Serenity',
-          description: 'A peaceful mountain landscape captured in warm tones. This piece explores the tranquility of nature through a harmonious blend of earthy colors and soft brushstrokes. The composition draws the viewer into a serene world where time seems to stand still.',
-          category: 'landscape',
-          medium: 'Oil on Canvas',
+          title: 'Divine Tanjore',
+          description: 'Traditional Tanjore painting with gold leaf and rich colors. This piece showcases the ancient South Indian art form with intricate details, vibrant colors, and gold leaf embellishments.',
+          category: 'tanjore-paintings',
+          medium: 'Traditional Tanjore',
           size: '24" x 36"',
-          price: 1200,
-          imageUrl: '/sample-artwork-1.jpg',
-          tags: ['landscape', 'mountains', 'nature', 'serene', 'oil painting'],
+                      imageUrl: '/sample-artwork-1.jpg',
+          tags: ['tanjore', 'traditional', 'gold leaf', 'south indian', 'divine'],
           seo: {
-            title: 'Mountain Serenity - Original Oil Painting',
-            description: 'A peaceful mountain landscape captured in warm tones. Original oil painting by professional artist.',
-            alt: 'Mountain landscape painting in warm tones',
-            keywords: ['mountain', 'landscape', 'oil painting', 'serene', 'nature']
+            title: 'Divine Tanjore - Traditional South Indian Art',
+            description: 'Traditional Tanjore painting with gold leaf and rich colors. Original artwork by professional artist.',
+            alt: 'Traditional Tanjore painting with gold leaf',
+            keywords: ['tanjore', 'traditional', 'gold leaf', 'south indian', 'divine']
           },
           views: 156,
           featured: true,
@@ -201,9 +198,6 @@ export default function PaintingPage() {
                       Featured
                     </div>
                   )}
-                  <div className="absolute top-4 right-4 bg-primary-600 text-white px-3 py-1 rounded-full text-sm font-semibold">
-                    ${typeof painting.price === 'number' ? painting.price.toLocaleString() : 'N/A'}
-                  </div>
                 </div>
                 
                 {/* Action buttons */}

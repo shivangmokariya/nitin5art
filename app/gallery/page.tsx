@@ -15,7 +15,6 @@ interface Painting {
   category: string;
   medium: string;
   size: string;
-  price: number;
   imageUrl: string;
   seo: {
     alt: string;
@@ -53,11 +52,10 @@ export default function GalleryPage() {
 
   const categories = [
     { value: 'all', label: 'All Categories' },
-    { value: 'landscape', label: 'Landscapes' },
-    { value: 'portrait', label: 'Portraits' },
-    { value: 'abstract', label: 'Abstract' },
-    { value: 'still-life', label: 'Still Life' },
-    { value: 'other', label: 'Other' },
+    { value: 'tanjore-paintings', label: 'Tanjore Paintings' },
+    { value: 'sketch-painting', label: 'Sketch Paintings' },
+    { value: 'oil-paintings', label: 'Oil Paintings' },
+    { value: 'portraits', label: 'Portraits' },
   ];
 
   useEffect(() => {
@@ -81,40 +79,37 @@ export default function GalleryPage() {
         setPaintings([
           {
             _id: '1',
-            title: 'Mountain Serenity',
-            description: 'A peaceful mountain landscape captured in warm tones',
-            category: 'landscape',
-            medium: 'Oil on Canvas',
+            title: 'Divine Tanjore',
+            description: 'Traditional Tanjore painting with gold leaf and rich colors',
+            category: 'tanjore-paintings',
+            medium: 'Traditional Tanjore',
             size: '24" x 36"',
-            price: 1200,
             imageUrl: '/sample-artwork-1.jpg',
-            seo: { alt: 'Mountain landscape painting in warm tones' },
+            seo: { alt: 'Traditional Tanjore painting with gold leaf' },
             views: 156,
             featured: true
           },
           {
             _id: '2',
-            title: 'Urban Portrait',
-            description: 'Contemporary portrait with urban influences',
-            category: 'portrait',
-            medium: 'Acrylic on Canvas',
+            title: 'Sketch Portrait',
+            description: 'Detailed pencil sketch capturing human emotion',
+            category: 'sketch-painting',
+            medium: 'Pencil on Paper',
             size: '20" x 24"',
-            price: 800,
             imageUrl: '/sample-artwork-2.jpg',
-            seo: { alt: 'Contemporary urban portrait painting' },
+            seo: { alt: 'Detailed pencil sketch portrait' },
             views: 89,
             featured: true
           },
           {
             _id: '3',
-            title: 'Abstract Harmony',
-            description: 'Bold abstract composition with vibrant colors',
-            category: 'abstract',
-            medium: 'Mixed Media',
+            title: 'Oil Masterpiece',
+            description: 'Classic oil painting with rich textures and colors',
+            category: 'oil-paintings',
+            medium: 'Oil on Canvas',
             size: '30" x 40"',
-            price: 1500,
             imageUrl: '/sample-artwork-3.jpg',
-            seo: { alt: 'Vibrant abstract painting with bold colors' },
+            seo: { alt: 'Classic oil painting masterpiece' },
             views: 203,
             featured: true
           }
@@ -349,10 +344,7 @@ export default function GalleryPage() {
                           </div>
                         </div>
                         
-                        {/* Price tag */}
-                        <div className="absolute top-4 right-4 bg-primary-600 text-white px-3 py-1 rounded-full text-sm font-semibold">
-                          ${typeof painting.price === 'number' ? painting.price.toLocaleString() : 'N/A'}
-                        </div>
+
                       </div>
                       
                       <div className={`p-6 ${viewMode === 'list' ? 'flex-1' : ''}`}>

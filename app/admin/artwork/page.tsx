@@ -4,11 +4,10 @@ import { useState, useRef, useEffect } from 'react';
 import Image from 'next/image';
 
 const categories = [
-  'landscape',
-  'portrait',
-  'abstract',
-  'still-life',
-  'other',
+  'tanjore-paintings',
+  'sketch-painting',
+  'oil-paintings',
+  'portraits',
 ];
 
 const sections = [
@@ -24,7 +23,6 @@ export default function ArtworkManagementPage() {
   const [description, setDescription] = useState('');
   const [category, setCategory] = useState(categories[0]);
   const [section, setSection] = useState(sections[0].value);
-  const [price, setPrice] = useState<number | ''>('');
   const [uploading, setUploading] = useState(false);
   const [artworks, setArtworks] = useState<any[]>([]);
   const fileInputRef = useRef<HTMLInputElement>(null);
@@ -46,7 +44,7 @@ export default function ArtworkManagementPage() {
 
   const handleUpload = async (e: React.FormEvent) => {
     e.preventDefault();
-    if (!file || price === '' || isNaN(Number(price))) return;
+    if (!file) return;
     setUploading(true);
     try {
       // 1. Upload image to backend
@@ -69,7 +67,6 @@ export default function ArtworkManagementPage() {
           category,
           imageUrl: uploadData.url,
           section,
-          price: Number(price),
           seo: {
             title,
             description,
@@ -90,7 +87,6 @@ export default function ArtworkManagementPage() {
       setDescription('');
       setCategory(categories[0]);
       setSection(sections[0].value);
-      setPrice('');
       if (fileInputRef.current) fileInputRef.current.value = '';
     } catch (err) {
       alert((err as Error).message);
@@ -147,17 +143,7 @@ export default function ArtworkManagementPage() {
               required
             />
           </div>
-          <div>
-            <label className="block text-sm font-medium mb-1">Price (USD)</label>
-            <input
-              type="number"
-              value={price}
-              onChange={e => setPrice(Number(e.target.value))}
-              className="input-field"
-              required
-              min={0}
-            />
-          </div>
+
           <div className="flex gap-4">
             <div className="flex-1">
               <label className="block text-sm font-medium mb-1">Category</label>
@@ -213,7 +199,7 @@ export default function ArtworkManagementPage() {
               <div className="text-sm text-secondary-600 mb-1">{art.description}</div>
               <div className="text-xs text-secondary-500 mb-1">Category: {art.category}</div>
               <div className="text-xs text-primary-600 font-medium">Section: {sections.find(s => s.value === (art.section || (art.featured ? 'carousel' : 'gallery')))?.label}</div>
-              <div className="text-xs text-secondary-700 mb-1">Price: ${typeof art.price === 'number' ? art.price.toLocaleString() : 'N/A'}</div>
+
               <div className="mt-2">
                 <span className="inline-block bg-primary-100 text-primary-700 px-2 py-1 rounded text-xs">Preview for: {sections.find(s => s.value === (art.section || (art.featured ? 'carousel' : 'gallery')))?.label}</span>
               </div>
