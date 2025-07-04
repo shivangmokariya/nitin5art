@@ -6,6 +6,7 @@ import Header from '@/components/Header';
 import Footer from '@/components/Footer';
 import ArtistImage from '@/components/ArtistImage';
 import { getSiteSettings } from '@/lib/siteUtils';
+import DynamicAboutText from "@/components/DynamicAboutText";
 
 export const metadata: Metadata = {
   title: 'About the Artist | Professional Artist Gallery',
@@ -74,7 +75,7 @@ export default async function AboutPage() {
             
             <div className="prose prose-lg max-w-none text-secondary-700">
               <p className="text-lg leading-relaxed mb-6">
-                {siteSettings.aboutText}
+                <DynamicAboutText />
               </p>
               
               <p className="text-lg leading-relaxed mb-6">

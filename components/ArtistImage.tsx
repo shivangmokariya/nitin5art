@@ -6,22 +6,26 @@ import { Palette } from "lucide-react";
 interface ArtistImageProps {
   artistName?: string;
   artistExperience?: string;
+  aboutText?: string;
 }
 
 interface ArtistData {
   artistImageUrl: string;
   artistName: string;
   artistExperience: string;
+  aboutText: string;
 }
 
 export default function ArtistImage({ 
   artistName: propArtistName = "Professional Artist", 
-  artistExperience: propArtistExperience = "15+ Years Experience" 
+  artistExperience: propArtistExperience = "15+ Years Experience",
+  aboutText: propAboutText = ""
 }: ArtistImageProps) {
   const [artistData, setArtistData] = useState<ArtistData>({
     artistImageUrl: '/uploads/default-artist.jpg',
     artistName: propArtistName,
-    artistExperience: propArtistExperience
+    artistExperience: propArtistExperience,
+    aboutText: propAboutText
   });
   const [loading, setLoading] = useState(true);
   const [imageError, setImageError] = useState(false);
@@ -37,7 +41,8 @@ export default function ArtistImage({
           setArtistData({
             artistImageUrl: data.artistImageUrl,
             artistName: data.artistName || propArtistName,
-            artistExperience: data.artistExperience || propArtistExperience
+            artistExperience: data.artistExperience || propArtistExperience,
+            aboutText: data.aboutText || propAboutText
           });
         }
       } catch (error) {
@@ -48,7 +53,7 @@ export default function ArtistImage({
     };
 
     fetchArtistData();
-  }, [propArtistName, propArtistExperience]);
+  }, [propArtistName, propArtistExperience, propAboutText]);
 
   const handleImageError = () => {
     console.error('Image failed to load:', artistData.artistImageUrl);
@@ -106,6 +111,11 @@ export default function ArtistImage({
         <p className="font-semibold">{artistData.artistName}</p>
         <p className="text-sm opacity-90">{artistData.artistExperience}</p>
       </div>
+      {artistData.aboutText && (
+        <div className="mt-6 bg-white p-4 rounded shadow text-secondary-700">
+          <p>{artistData.aboutText}</p>
+        </div>
+      )}
     </div>
   );
 } 

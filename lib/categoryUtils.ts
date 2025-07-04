@@ -24,12 +24,10 @@ export async function getCategoryData(): Promise<CategoryData[]> {
   for (const category of categories) {
     // Get count for this category
     const count = await Painting.countDocuments({ category: category.key });
-    
     // Get a featured image for this category (first featured piece, or first piece if no featured)
     const featuredImage = await Painting.findOne({ 
       category: category.key 
     }).sort({ featured: -1, createdAt: -1 });
-
     categoryData.push({
       name: category.name,
       description: category.description,
@@ -38,6 +36,5 @@ export async function getCategoryData(): Promise<CategoryData[]> {
       count: `${count} piece${count !== 1 ? 's' : ''}`
     });
   }
-
   return categoryData;
 } 
