@@ -6,7 +6,9 @@
     "dev": "next dev",
     "build": "next build",
     "start": "next start",
-    "lint": "next lint"
+    "lint": "next lint",
+    "setup": "node setup-env.js",
+    "migrate": "node scripts/migrate-categories.js"
   },
   "dependencies": {
     "bcryptjs": "^2.4.3",

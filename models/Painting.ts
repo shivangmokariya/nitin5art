@@ -36,7 +36,7 @@ const PaintingSchema = new mongoose.Schema<IPainting>(
     category: {
       type: String,
       required: [true, 'Please provide a category'],
-      enum: ['tanjore-paintings', 'sketch-painting', 'oil-paintings', 'portraits'],
+      // enum: ['tanjore-paintings', 'sketch-painting', 'oil-paintings', 'portraits'],
     },
     medium: {
       type: String,

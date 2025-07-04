@@ -42,17 +42,32 @@ A modern, responsive website for showcasing artwork with a beautiful gallery, ad
 
 3. **Set up environment variables**
    ```bash
+   npm run setup
+   ```
+   This will create a `.env.local` file with secure defaults. You can also manually copy from `env.example`:
+   ```bash
    cp env.example .env.local
    ```
    
    Edit `.env.local` with your configuration:
    ```env
+   # Database Configuration
    MONGODB_URI=mongodb://localhost:27017/artist-website
+   
+   # NextAuth Configuration
    NEXTAUTH_URL=http://localhost:3000
    NEXTAUTH_SECRET=your-nextauth-secret-key-here
+   
+   # JWT Configuration
    JWT_SECRET=your-jwt-secret-key-here
+   
+   # Admin Configuration
    ADMIN_EMAIL=admin@example.com
    ADMIN_PASSWORD=your-admin-password-here
+   
+   # Google Drive Configuration
+   GOOGLE_DRIVE_FOLDER_ID=your-google-drive-folder-id
+   GOOGLE_SERVICE_ACCOUNT_KEY={"type":"service_account","project_id":"your-project-id","private_key":"-----BEGIN PRIVATE KEY-----\n...\n-----END PRIVATE KEY-----\n","client_email":"your-service-account@your-project.iam.gserviceaccount.com"}
    ```
 
 4. **Start the development server**
@@ -63,6 +78,99 @@ A modern, responsive website for showcasing artwork with a beautiful gallery, ad
 5. **Access the application**
    - Website: http://localhost:3000
    - Admin Panel: http://localhost:3000/admin
+
+## 🔐 Environment Variables Setup
+
+### Required Environment Variables
+
+Create a `.env.local` file in the root directory with the following variables:
+
+#### Database Configuration
+```env
+MONGODB_URI=mongodb://localhost:27017/artist-website
+```
+For production, use MongoDB Atlas:
+```env
+MONGODB_URI=mongodb+srv://username:password@cluster.mongodb.net/artist-website
+```
+
+#### Authentication
+```env
+NEXTAUTH_URL=http://localhost:3000
+NEXTAUTH_SECRET=your-nextauth-secret-key-here
+JWT_SECRET=your-jwt-secret-key-here
+```
+
+#### Admin Access
+```env
+ADMIN_EMAIL=admin@example.com
+ADMIN_PASSWORD=your-admin-password-here
+```
+
+#### Google Drive Integration (Optional)
+```env
+GOOGLE_DRIVE_FOLDER_ID=your-google-drive-folder-id
+GOOGLE_SERVICE_ACCOUNT_KEY={"type":"service_account","project_id":"your-project-id","private_key":"-----BEGIN PRIVATE KEY-----\n...\n-----END PRIVATE KEY-----\n","client_email":"your-service-account@your-project.iam.gserviceaccount.com"}
+```
+
+### Google Drive Setup
+
+1. **Create a Google Cloud Project**
+   - Go to [Google Cloud Console](https://console.cloud.google.com/)
+   - Create a new project or select an existing one
+
+2. **Enable Google Drive API**
+   - Navigate to "APIs & Services" > "Library"
+   - Search for "Google Drive API" and enable it
+
+3. **Create a Service Account**
+   - Go to "APIs & Services" > "Credentials"
+   - Click "Create Credentials" > "Service Account"
+   - Fill in the details and create the account
+
+4. **Generate Service Account Key**
+   - Click on the created service account
+   - Go to "Keys" tab
+   - Click "Add Key" > "Create new key"
+   - Choose JSON format and download the file
+
+5. **Set up Google Drive Folder**
+   - Create a folder in Google Drive
+   - Share it with your service account email (with Editor permissions)
+   - Copy the folder ID from the URL
+
+6. **Configure Environment Variables**
+   - Copy the entire JSON content from the downloaded service account key
+   - Paste it as the `GOOGLE_SERVICE_ACCOUNT_KEY` environment variable
+   - Set the `GOOGLE_DRIVE_FOLDER_ID` to your folder ID
+
+### Security Notes
+
+- **Never commit `.env.local` or `google-service-account.json` to version control**
+- **Use strong, unique secrets for `NEXTAUTH_SECRET` and `JWT_SECRET`**
+- **In production, use environment variables provided by your hosting platform**
+- **The `google-service-account.json` file is automatically ignored by git**
+
+### Optional Environment Variables
+
+```env
+# Email Configuration (for contact form)
+SMTP_HOST=smtp.gmail.com
+SMTP_PORT=587
+SMTP_USER=your-email@gmail.com
+SMTP_PASS=your-app-password
+
+# Google Analytics
+NEXT_PUBLIC_GA_ID=G-XXXXXXXXXX
+
+# Google Search Console
+NEXT_PUBLIC_GOOGLE_SITE_VERIFICATION=your-verification-code
+
+# External Image Storage (alternative to Google Drive)
+CLOUDINARY_CLOUD_NAME=your-cloud-name
+CLOUDINARY_API_KEY=your-api-key
+CLOUDINARY_API_SECRET=your-api-secret
+```
 
 ## 📁 Project Structure
 
