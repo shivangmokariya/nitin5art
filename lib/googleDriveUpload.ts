@@ -119,7 +119,7 @@ export async function uploadToGoogleDrive(buffer: Buffer, filename: string, mime
     const { drive } = initializeGoogleAuth();
     
     // Save buffer to a temp file
-    tempPath = `./tmp-${Date.now()}-${filename}`;
+    tempPath = `/tmp/tmp-${Date.now()}-${filename}`;
     fs.writeFileSync(tempPath, buffer);
 
     const fileMetadata = {
