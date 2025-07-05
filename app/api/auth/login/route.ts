@@ -28,7 +28,6 @@ export async function POST(request: NextRequest) {
     }
     
     const isPasswordValid = await admin.comparePassword(password);
-    console.log(password,"<password")
     if (!isPasswordValid) {
       return NextResponse.json(
         { error: 'Invalid credentials 2' },

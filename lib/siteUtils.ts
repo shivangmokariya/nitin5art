@@ -7,6 +7,7 @@ export interface SiteSettings {
   aboutText: string;
   artistName: string;
   artistExperience: string;
+  faviconUrl?: string;
 }
 
 export async function getSiteSettings(): Promise<SiteSettings> {
@@ -19,6 +20,7 @@ export async function getSiteSettings(): Promise<SiteSettings> {
     artistImageUrl: settings?.artistImageUrl || '/uploads/default-artist.jpg',
     aboutText: settings?.aboutText || 'With over 15 years of experience in paint sketch artistry, I\'ve dedicated my life to capturing the world\'s beauty through color and texture. Each piece is created with passion and attention to detail, ensuring that every artwork tells a unique story.',
     artistName: settings?.artistName || 'Professional Artist',
-    artistExperience: settings?.artistExperience || '15+ Years Experience'
+    artistExperience: settings?.artistExperience || '15+ Years Experience',
+    faviconUrl: settings?.faviconUrl || '/favicon.ico',
   };
 } 

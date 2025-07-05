@@ -15,7 +15,6 @@ function getCredentials() {
   if (process.env.GOOGLE_SERVICE_ACCOUNT_KEY) {
     try {
       credentials = JSON.parse(process.env.GOOGLE_SERVICE_ACCOUNT_KEY);
-      console.log('Using credentials from environment variable');
     } catch (error) {
       console.error('Failed to parse GOOGLE_SERVICE_ACCOUNT_KEY from environment:', error);
     }
@@ -27,7 +26,6 @@ function getCredentials() {
     if (fs.existsSync(keyfile)) {
       try {
         credentials = JSON.parse(fs.readFileSync(keyfile, 'utf8'));
-        console.log('Using credentials from file');
       } catch (error) {
         console.error('Failed to read google-service-account.json:', error);
       }
@@ -56,20 +54,12 @@ function initializeGoogleAuth() {
     try {
       const credentials = getCredentials();
       
-      console.log('Initializing Google Auth with credentials:', {
-        type: credentials.type,
-        project_id: credentials.project_id,
-        client_email: credentials.client_email,
-        private_key_length: credentials.private_key?.length || 0
-      });
-      
       auth = new google.auth.GoogleAuth({
         credentials,
         scopes: SCOPES,
       });
       
       drive = google.drive({ version: 'v3', auth });
-      console.log('Google Auth initialized successfully');
     } catch (error) {
       console.error('Failed to initialize Google Auth:', error);
       throw new Error(`Google Auth initialization failed: ${error}`);
@@ -122,7 +112,6 @@ export async function uploadToGoogleDrive(buffer: Buffer, filename: string, mime
     // Use OS temp directory for cross-platform compatibility
     const tempDir = os.tmpdir();
     tempPath = `${tempDir}/tmp-${Date.now()}-${filename}`;
-    console.log('Saving temp file to:', tempPath);
     fs.writeFileSync(tempPath, buffer);
 
     const fileMetadata = {
@@ -135,23 +124,17 @@ export async function uploadToGoogleDrive(buffer: Buffer, filename: string, mime
       body: fs.createReadStream(tempPath),
     };
 
-    console.log('Uploading file to Google Drive:', { filename, mimetype, folderId: FOLDER_ID });
-
     const file = await drive.files.create({
       requestBody: fileMetadata,
       media,
       fields: 'id',
     });
 
-    console.log('File uploaded successfully, ID:', file.data.id);
-
     // Make file public
     await drive.permissions.create({
       fileId: String(file.data.id),
       requestBody: { role: 'reader', type: 'anyone' },
     });
-
-    console.log('File permissions set to public');
 
     // Use the Google Drive embed format for images
     const publicUrl = `https://drive.google.com/uc?export=view&id=${file.data.id}`;
@@ -175,7 +158,6 @@ export async function uploadToGoogleDrive(buffer: Buffer, filename: string, mime
     if (tempPath && fs.existsSync(tempPath)) {
       try {
         fs.unlinkSync(tempPath);
-        console.log('Temporary file cleaned up');
       } catch (cleanupError) {
         console.error('Failed to clean up temporary file:', cleanupError);
       }

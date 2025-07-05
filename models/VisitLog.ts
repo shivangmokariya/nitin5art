@@ -4,12 +4,14 @@ export interface IVisitLog extends mongoose.Document {
   ip: string;
   userAgent?: string;
   date: Date; // The date of the visit (set to midnight for uniqueness)
+  visitedAt: Date; // The actual timestamp of the visit
 }
 
 const VisitLogSchema = new mongoose.Schema<IVisitLog>({
   ip: { type: String, required: true },
   userAgent: { type: String },
   date: { type: Date, required: true },
+  visitedAt: { type: Date, required: true },
 }, {
   timestamps: true,
 });

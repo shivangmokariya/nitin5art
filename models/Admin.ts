@@ -69,7 +69,6 @@ AdminSchema.pre('save', async function (next) {
 
 // Compare password method
 AdminSchema.methods.comparePassword = async function (candidatePassword: string): Promise<boolean> {
-  console.log(candidatePassword,this.password,"<<candidatePassword")
   return bcrypt.compare(candidatePassword, this.password);
 };
 

@@ -6,6 +6,7 @@ const SiteSettingSchema = new mongoose.Schema({
   aboutText: { type: String, required: false },
   artistName: { type: String, required: false },
   artistExperience: { type: String, required: false },
+  faviconUrl: { type: String, required: false },
 });
 
 export default mongoose.models.SiteSetting || mongoose.model('SiteSetting', SiteSettingSchema); 

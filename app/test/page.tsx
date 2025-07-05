@@ -79,7 +79,6 @@ export default function TestPage() {
                 alt="API Image"
                 className="w-full h-48 object-cover rounded border"
                 onError={(e) => console.error('API Image failed:', e)}
-                onLoad={() => console.log('API Image loaded successfully')}
               />
             )}
           </div>
@@ -91,7 +90,6 @@ export default function TestPage() {
               alt="Test Image"
               className="w-full h-48 object-cover rounded border"
               onError={(e) => console.error('Test Image failed:', e)}
-              onLoad={() => console.log('Test Image loaded successfully')}
             />
           </div>
         </div>

@@ -7,11 +7,9 @@ export async function checkDatabase() {
     
     // Check all site settings
     const settings = await SiteSetting.find({});
-    console.log('All SiteSettings:', settings);
     
     // Check if there's any setting with artistImageUrl
     const settingWithImage = await SiteSetting.findOne({ artistImageUrl: { $exists: true } });
-    console.log('Setting with artistImageUrl:', settingWithImage);
     
     return {
       allSettings: settings,

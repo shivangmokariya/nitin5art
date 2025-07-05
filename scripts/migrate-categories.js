@@ -2,11 +2,8 @@
 
 const { migrateCategories } = require('../lib/migrateCategories.js');
 
-console.log('🎨 Category Migration Script\n');
-
 migrateCategories()
   .then(() => {
-    console.log('\n✅ Migration completed successfully!');
     process.exit(0);
   })
   .catch((error) => {

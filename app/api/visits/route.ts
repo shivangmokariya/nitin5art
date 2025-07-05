@@ -41,7 +41,7 @@ export async function POST(req: NextRequest) {
   try {
     await VisitLog.updateOne(
       { ip, date: today },
-      { $setOnInsert: { ip, userAgent, date: today } },
+      { $setOnInsert: { ip, userAgent, date: today, visitedAt: now } },
       { upsert: true }
     );
   } catch (err) {
@@ -61,9 +61,5 @@ export async function POST(req: NextRequest) {
 
   return NextResponse.json({
     success: true,
-    ip,
-    today: todayCount,
-    month: monthCount,
-    year: yearCount,
   });
 } 

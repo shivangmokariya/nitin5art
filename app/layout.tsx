@@ -4,6 +4,7 @@ import './globals.css';
 import { Toaster } from 'react-hot-toast';
 import { seedAdmin } from '@/lib/seedAdmin';
 import VisitLogger from '@/components/VisitLogger';
+import { getSiteSettings } from '@/lib/siteUtils';
 
 if (typeof window === 'undefined') {
   // Only run on the server
@@ -69,15 +70,17 @@ export const metadata: Metadata = {
   },
 };
 
-export default function RootLayout({
+export default async function RootLayout({
   children,
 }: {
   children: React.ReactNode;
 }) {
+  const siteSettings = await getSiteSettings();
+  const faviconUrl = siteSettings?.faviconUrl || '/favicon.ico';
   return (
     <html lang="en">
       <head>
-        <link rel="icon" href="/favicon.ico" />
+        <link rel="icon" href="/favicon.png" />
         <link rel="apple-touch-icon" href="/apple-touch-icon.png" />
         <link rel="manifest" href="/manifest.json" />
       </head>
