@@ -24,7 +24,7 @@ export async function GET(
       );
     }
     // Increment view count
-    await Painting.updateOne({ _id: painting._id }, { $inc: { views: 1 } });
+    await Painting.updateOne({ _id: (painting as any)._id }, { $inc: { views: 1 } });
     return NextResponse.json(painting);
   } catch (error) {
     console.error('Error fetching painting:', error);
