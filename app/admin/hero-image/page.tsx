@@ -5,6 +5,7 @@ export default function HeroImageAdmin() {
   const [url, setUrl] = useState('');
   const [file, setFile] = useState<File | null>(null);
   const [loading, setLoading] = useState(false);
+  const [dragActive, setDragActive] = useState(false);
   const fileInputRef = useRef<HTMLInputElement>(null);
 
   useEffect(() => {
@@ -19,6 +20,24 @@ export default function HeroImageAdmin() {
     }
   };
 
+  const handleDrop = (e: React.DragEvent<HTMLDivElement>) => {
+    e.preventDefault();
+    setDragActive(false);
+    if (e.dataTransfer.files && e.dataTransfer.files[0]) {
+      setFile(e.dataTransfer.files[0]);
+    }
+  };
+
+  const handleDragOver = (e: React.DragEvent<HTMLDivElement>) => {
+    e.preventDefault();
+    setDragActive(true);
+  };
+
+  const handleDragLeave = (e: React.DragEvent<HTMLDivElement>) => {
+    e.preventDefault();
+    setDragActive(false);
+  };
+
   const handleUpload = async () => {
     if (!file) return;
     setLoading(true);
@@ -30,7 +49,6 @@ export default function HeroImageAdmin() {
       body: formData,
     });
     const data = await res.json();
-    console.log('Upload response:', data);
     const imageUrl = data.url || data.fileUrl || '';
     setUrl(imageUrl);
     setLoading(false);
@@ -55,32 +73,56 @@ export default function HeroImageAdmin() {
     alert('Hero image updated!');
     setFile(null);
     if (fileInputRef.current) fileInputRef.current.value = '';
-    // Refresh preview from backend
     fetch('/api/settings/hero-image')
       .then(res => res.json())
       .then(data => setUrl(data.heroImageUrl));
   };
 
   return (
-    <div className="flex justify-center items-center min-h-[60vh]">
-      <div className="bg-white rounded-lg shadow-lg p-8 w-full max-w-md">
-        <h1 className="text-2xl font-serif font-bold text-secondary-900 mb-6 text-center">Update Hero Image</h1>
-        <form onSubmit={handleSave} className="space-y-6">
+    <div className="flex justify-center items-center min-h-[60vh] bg-gradient-to-br from-secondary-50 to-white">
+      <div className="bg-white rounded-2xl shadow-2xl p-10 w-full max-w-lg border border-secondary-100">
+        <h1 className="text-3xl font-serif font-bold text-primary-700 mb-8 text-center">Update Hero Image</h1>
+        <form onSubmit={handleSave} className="space-y-8">
           <div>
-            <label className="block text-sm font-medium text-secondary-700 mb-2">Upload Hero Image</label>
-            <div className="flex gap-2">
-              <input type="file" accept="image/*" onChange={handleFileChange} className="flex-1" ref={fileInputRef} />
-              <button type="button" onClick={handleUpload} disabled={loading || !file} className="btn-secondary px-4 py-2 rounded disabled:opacity-50">
-                {loading ? 'Uploading...' : 'Upload'}
-              </button>
+            <label className="block text-base font-semibold text-secondary-700 mb-3">Upload Hero Image</label>
+            <div
+              className={`flex flex-col items-center justify-center border-2 border-dashed rounded-xl p-6 transition-colors duration-200 ${dragActive ? 'border-primary-500 bg-primary-50' : 'border-secondary-200 bg-secondary-50'}`}
+              onDrop={handleDrop}
+              onDragOver={handleDragOver}
+              onDragLeave={handleDragLeave}
+              onClick={() => fileInputRef.current?.click()}
+              style={{ cursor: 'pointer' }}
+            >
+              <input
+                type="file"
+                accept="image/*"
+                onChange={handleFileChange}
+                className="hidden"
+                ref={fileInputRef}
+              />
+              <span className="text-secondary-500 mb-2">Drag & drop or click to select an image</span>
+              {file && <span className="text-primary-600 font-medium">{file.name}</span>}
             </div>
+            <button
+              type="button"
+              onClick={handleUpload}
+              disabled={loading || !file}
+              className="mt-4 w-full bg-primary-600 hover:bg-primary-700 text-white font-semibold py-2 rounded-lg transition disabled:opacity-50"
+            >
+              {loading ? 'Uploading...' : 'Upload & Preview'}
+            </button>
           </div>
           {url && (
             <div className="flex flex-col items-center">
-              <img src={url} alt="Hero Preview" className="rounded shadow border mb-4 max-h-48" />
+              <img src={url} alt="Hero Preview" className="rounded-xl shadow-lg border mb-4 max-h-56 object-contain" />
+              <span className="text-xs text-secondary-400">Preview</span>
             </div>
           )}
-          <button type="submit" disabled={loading || !url} className="btn-primary w-full py-2 rounded text-lg disabled:opacity-50">
+          <button
+            type="submit"
+            disabled={loading || !url}
+            className="w-full bg-primary-600 hover:bg-primary-700 text-white font-bold py-3 rounded-xl text-lg shadow transition disabled:opacity-50"
+          >
             {loading ? 'Saving...' : 'Save as Hero Image'}
           </button>
         </form>

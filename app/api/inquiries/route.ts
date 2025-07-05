@@ -52,8 +52,28 @@ export async function POST(request: NextRequest) {
     await dbConnect();
     
     const body = await request.json();
-    
+    const { name, mobile, message } = body;
     const inquiry = await Inquiry.create(body);
+
+    // Send WhatsApp message using UltraMsg
+    const instanceId = process.env.ULTRAMSG_INSTANCE_ID;
+    const token = process.env.ULTRAMSG_TOKEN;
+    const to = process.env.ULTRAMSG_TO;
+    const text = `New Inquiry:\nName: ${name}\nMobile: ${mobile}\nMessage: ${message}`;
+
+    if (instanceId && token && to) {
+      await fetch(`https://api.ultramsg.com/${instanceId}/messages/chat`, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          token,
+          to,
+          body: text,
+          priority: 10,
+          referenceId: 'inquiry'
+        })
+      });
+    }
     
     return NextResponse.json(inquiry, { status: 201 });
   } catch (error: any) {

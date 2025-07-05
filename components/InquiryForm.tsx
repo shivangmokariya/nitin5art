@@ -6,7 +6,7 @@ import toast from 'react-hot-toast';
 
 interface InquiryFormData {
   name: string;
-  email: string;
+  mobile: string;
   message: string;
 }
 
@@ -88,24 +88,24 @@ export default function InquiryForm({ paintingId, paintingTitle, onSuccess }: In
       </div>
 
       <div>
-        <label htmlFor="email" className="block text-sm font-medium text-secondary-700 mb-1">
-          Email *
+        <label htmlFor="mobile" className="block text-sm font-medium text-secondary-700 mb-1">
+          Mobile Number *
         </label>
         <input
-          type="email"
-          id="email"
-          {...register('email', { 
-            required: 'Email is required',
+          type="tel"
+          id="mobile"
+          {...register('mobile', {
+            required: 'Mobile number is required',
             pattern: {
-              value: /^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,}$/i,
-              message: 'Please enter a valid email address'
+              value: /^[0-9]{10,15}$/,
+              message: 'Please enter a valid mobile number'
             }
           })}
           className="input-field"
-          placeholder="your.email@example.com"
+          placeholder="Your mobile number"
         />
-        {errors.email && (
-          <p className="mt-1 text-sm text-red-600">{errors.email.message}</p>
+        {errors.mobile && (
+          <p className="mt-1 text-sm text-red-600">{errors.mobile.message}</p>
         )}
       </div>
 

@@ -3,6 +3,7 @@ import { Inter } from 'next/font/google';
 import './globals.css';
 import { Toaster } from 'react-hot-toast';
 import { seedAdmin } from '@/lib/seedAdmin';
+import VisitLogger from '@/components/VisitLogger';
 
 if (typeof window === 'undefined') {
   // Only run on the server
@@ -81,6 +82,7 @@ export default function RootLayout({
         <link rel="manifest" href="/manifest.json" />
       </head>
       <body className={inter.className}>
+        <VisitLogger />
         {children}
         <Toaster
           position="top-right"

@@ -38,6 +38,7 @@ export default function PaintingPage() {
   useEffect(() => {
     const fetchPainting = async () => {
       try {
+        console.log(params,"<<<<params")
         const response = await fetch(`/api/paintings/${params.id}`);
         const data = await response.json();
         
@@ -46,7 +47,7 @@ export default function PaintingPage() {
         } else {
           // Fallback to sample data
           setPainting({
-            _id: params.id as string,
+            _id: params.slug as string,
             title: 'Divine Tanjore',
             description: 'Traditional Tanjore painting with gold leaf and rich colors. This piece showcases the ancient South Indian art form with intricate details, vibrant colors, and gold leaf embellishments.',
             category: 'tanjore-paintings',
@@ -69,7 +70,7 @@ export default function PaintingPage() {
         console.error('Error fetching painting:', error);
         // Fallback to sample data
         setPainting({
-          _id: params.id as string,
+          _id: params.slug as string,
           title: 'Divine Tanjore',
           description: 'Traditional Tanjore painting with gold leaf and rich colors. This piece showcases the ancient South Indian art form with intricate details, vibrant colors, and gold leaf embellishments.',
           category: 'tanjore-paintings',
@@ -92,9 +93,12 @@ export default function PaintingPage() {
       }
     };
 
-    if (params.id) {
-      fetchPainting();
+    if (!params.id) {
+      setLoading(false);
+      setPainting(null);
+      return;
     }
+    fetchPainting();
   }, [params.id]);
 
   const handleShare = () => {
@@ -135,7 +139,7 @@ export default function PaintingPage() {
     );
   }
 
-  if (!painting) {
+  if (!painting && !loading) {
     return (
       <>
         <Header />
@@ -145,7 +149,7 @@ export default function PaintingPage() {
               Artwork Not Found
             </h1>
             <p className="text-secondary-600 mb-8">
-              The artwork you're looking for doesn't exist or has been removed.
+              The artwork you're looking for doesn't exist, the link is invalid, or the slug is missing.
             </p>
             <Link href="/gallery" className="btn-primary">
               Browse Gallery
@@ -155,6 +159,10 @@ export default function PaintingPage() {
         <Footer />
       </>
     );
+  }
+
+  if (!painting) {
+    return null;
   }
 
   return (

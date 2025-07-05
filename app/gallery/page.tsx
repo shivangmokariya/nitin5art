@@ -21,6 +21,7 @@ interface Painting {
   };
   views: number;
   featured: boolean;
+  slug: string;
 }
 
 interface Pagination {
@@ -67,7 +68,7 @@ export default function GalleryPage() {
         if (category !== 'all') params.append('category', category);
         params.append('page', page.toString());
         params.append('limit', '12');
-
+        console.log(params,"<<params")
         const response = await fetch(`/api/paintings?${params.toString()}`);
         const data = await response.json();
         
@@ -87,7 +88,8 @@ export default function GalleryPage() {
             imageUrl: '/sample-artwork-1.jpg',
             seo: { alt: 'Traditional Tanjore painting with gold leaf' },
             views: 156,
-            featured: true
+            featured: true,
+            slug: 'divine-tanjore'
           },
           {
             _id: '2',
@@ -99,7 +101,8 @@ export default function GalleryPage() {
             imageUrl: '/sample-artwork-2.jpg',
             seo: { alt: 'Detailed pencil sketch portrait' },
             views: 89,
-            featured: true
+            featured: true,
+            slug: 'sketch-portrait'
           },
           {
             _id: '3',
@@ -111,7 +114,8 @@ export default function GalleryPage() {
             imageUrl: '/sample-artwork-3.jpg',
             seo: { alt: 'Classic oil painting masterpiece' },
             views: 203,
-            featured: true
+            featured: true,
+            slug: 'oil-masterpiece'
           }
         ]);
         setPagination({
@@ -318,8 +322,8 @@ export default function GalleryPage() {
                     <div key={painting._id} className={`group card overflow-hidden ${
                       viewMode === 'list' ? 'flex' : ''
                     }`}>
-                      <div className={`relative overflow-hidden ${
-                        viewMode === 'list' ? 'w-48 h-48 flex-shrink-0' : 'h-64'
+                      <div className={`relative aspect-square rounded-lg overflow-hidden ${
+                        viewMode === 'list' ? 'w-48 h-48 flex-shrink-0' : ''
                       }`}>
                         <Image
                           src={painting.imageUrl}
@@ -333,7 +337,7 @@ export default function GalleryPage() {
                         <div className="absolute inset-0 flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity duration-300">
                           <div className="flex space-x-4">
                             <Link
-                              href={`/gallery/${painting._id}`}
+                              href={`/gallery/${painting.slug}`}
                               className="bg-white/90 hover:bg-white text-secondary-900 p-3 rounded-full transition-colors duration-200"
                             >
                               <Eye className="h-5 w-5" />
@@ -359,10 +363,6 @@ export default function GalleryPage() {
                           <span>{painting.size}</span>
                         </div>
                         <div className="flex items-center justify-between">
-                          <div className="flex items-center text-sm text-secondary-500">
-                            <Eye className="h-4 w-4 mr-1" />
-                            <span>{painting.views} views</span>
-                          </div>
                           {painting.featured && (
                             <span className="text-xs bg-yellow-100 text-yellow-800 px-2 py-1 rounded-full">
                               Featured

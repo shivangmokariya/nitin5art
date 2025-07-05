@@ -18,6 +18,7 @@ interface Painting {
   };
   views: number;
   featured: boolean;
+  slug: string;
 }
 
 export default function FeaturedGallery() {
@@ -45,7 +46,8 @@ export default function FeaturedGallery() {
             imageUrl: '/sample-artwork-1.jpg',
             seo: { alt: 'Traditional Tanjore painting with gold leaf' },
             views: 156,
-            featured: true
+            featured: true,
+            slug: 'divine-tanjore'
           },
           {
             _id: '2',
@@ -57,7 +59,8 @@ export default function FeaturedGallery() {
             imageUrl: '/sample-artwork-2.jpg',
             seo: { alt: 'Detailed pencil sketch portrait' },
             views: 89,
-            featured: true
+            featured: true,
+            slug: 'sketch-portrait'
           },
           {
             _id: '3',
@@ -69,7 +72,8 @@ export default function FeaturedGallery() {
             imageUrl: '/sample-artwork-3.jpg',
             seo: { alt: 'Classic oil painting masterpiece' },
             views: 203,
-            featured: true
+            featured: true,
+            slug: 'oil-masterpiece'
           }
         ]);
       } finally {
@@ -119,7 +123,7 @@ export default function FeaturedGallery() {
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
         {paintings.slice(currentIndex, currentIndex + 3).map((painting) => (
           <div key={painting._id} className="group card overflow-hidden">
-            <div className="relative h-64 overflow-hidden">
+            <div className="relative aspect-square rounded-lg overflow-hidden">
               <Image
                 src={painting.imageUrl}
                 alt={painting.seo.alt}
@@ -132,7 +136,7 @@ export default function FeaturedGallery() {
               <div className="absolute inset-0 flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity duration-300">
                 <div className="flex space-x-4">
                   <Link
-                    href={`/gallery/${painting._id}`}
+                    href={painting.slug ? `/gallery/${painting.slug}` : "#"}
                     className="bg-white/90 hover:bg-white text-secondary-900 p-3 rounded-full transition-colors duration-200"
                   >
                     <Eye className="h-5 w-5" />
@@ -154,10 +158,6 @@ export default function FeaturedGallery() {
               <div className="flex justify-between items-center text-sm text-secondary-500">
                 <span>{painting.medium}</span>
                 <span>{painting.size}</span>
-              </div>
-              <div className="flex items-center mt-3 text-sm text-secondary-500">
-                <Eye className="h-4 w-4 mr-1" />
-                <span>{painting.views} views</span>
               </div>
             </div>
           </div>

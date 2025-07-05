@@ -1,6 +1,7 @@
 import { NextRequest, NextResponse } from 'next/server';
 import dbConnect from '@/lib/mongodb';
 import Painting from '@/models/Painting';
+import mongoose from 'mongoose';
 
 export async function GET(
   request: NextRequest,
@@ -8,19 +9,22 @@ export async function GET(
 ) {
   try {
     await dbConnect();
-    
-    const painting = await Painting.findById(params.id).lean();
-    
+    let painting;
+    if (mongoose.Types.ObjectId.isValid(params.id)) {
+      painting = await Painting.findById(params.id).lean();
+    }
+    if (!painting) {
+      // Try fetching by slug
+      painting = await Painting.findOne({ slug: params.id }).lean();
+    }
     if (!painting) {
       return NextResponse.json(
         { error: 'Painting not found' },
         { status: 404 }
       );
     }
-
     // Increment view count
-    await Painting.findByIdAndUpdate(params.id, { $inc: { views: 1 } });
-    
+    await Painting.updateOne({ _id: painting._id }, { $inc: { views: 1 } });
     return NextResponse.json(painting);
   } catch (error) {
     console.error('Error fetching painting:', error);

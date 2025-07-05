@@ -2,7 +2,7 @@ import mongoose from 'mongoose';
 
 export interface IInquiry extends mongoose.Document {
   name: string;
-  email: string;
+  mobile: string;
   message: string;
   paintingId?: mongoose.Types.ObjectId;
   paintingTitle?: string;
@@ -19,15 +19,11 @@ const InquirySchema = new mongoose.Schema<IInquiry>(
       trim: true,
       maxlength: [100, 'Name cannot be more than 100 characters'],
     },
-    email: {
+    mobile: {
       type: String,
-      required: [true, 'Please provide your email'],
+      required: [true, 'Please provide your mobile'],
       trim: true,
       lowercase: true,
-      match: [
-        /^\w+([.-]?\w+)*@\w+([.-]?\w+)*(\.\w{2,3})+$/,
-        'Please provide a valid email address',
-      ],
     },
     message: {
       type: String,
