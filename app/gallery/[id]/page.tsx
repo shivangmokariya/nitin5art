@@ -246,13 +246,13 @@ export default function PaintingPage() {
                     <div className="flex items-center space-x-3">
                       <Palette className="h-5 w-5 text-primary-600" />
                       <span className="text-secondary-700">
-                        <span className="font-medium">Medium:</span> {painting.medium}
+                        <span className="font-medium">Medium: 18x24 inch</span> {painting.medium}
                       </span>
                     </div>
                     <div className="flex items-center space-x-3">
                       <Ruler className="h-5 w-5 text-primary-600" />
                       <span className="text-secondary-700">
-                        <span className="font-medium">Size:</span> {painting.size}
+                        <span className="font-medium">Size: Customizable</span> {painting.size}
                       </span>
                     </div>
                     <div className="flex items-center space-x-3">
