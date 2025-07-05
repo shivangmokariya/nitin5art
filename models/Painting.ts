@@ -18,6 +18,7 @@ export interface IPainting extends mongoose.Document {
   views: number;
   createdAt: Date;
   updatedAt: Date;
+  slug: string;
 }
 
 const PaintingSchema = new mongoose.Schema<IPainting>(
@@ -27,6 +28,13 @@ const PaintingSchema = new mongoose.Schema<IPainting>(
       required: [true, 'Please provide a title'],
       trim: true,
       maxlength: [100, 'Title cannot be more than 100 characters'],
+    },
+    slug: {
+      type: String,
+      required: true,
+      unique: true,
+      trim: true,
+      lowercase: true,
     },
     description: {
       type: String,
@@ -101,5 +109,16 @@ PaintingSchema.index({
 
 // Create compound index for category and featured
 PaintingSchema.index({ category: 1, featured: 1 });
+
+// Add pre-save hook to auto-generate slug from title if not provided
+PaintingSchema.pre('validate', function (next) {
+  if (this.isModified('title') || !this.slug) {
+    this.slug = this.title
+      .toLowerCase()
+      .replace(/[^a-z0-9]+/g, '-')
+      .replace(/(^-|-$)+/g, '');
+  }
+  next();
+});
 
 export default mongoose.models.Painting || mongoose.model<IPainting>('Painting', PaintingSchema); 

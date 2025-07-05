@@ -84,7 +84,7 @@ export default function ContactPage() {
                     </div>
                     <div>
                       <h3 className="font-semibold text-secondary-900 mb-1">Email</h3>
-                      <p className="text-secondary-700">artist@example.com</p>
+                      <p className="text-secondary-700">support@nitin5art.com</p>
                       <p className="text-sm text-secondary-600">Best for detailed inquiries</p>
                     </div>
                   </div>
@@ -95,7 +95,7 @@ export default function ContactPage() {
                     </div>
                     <div>
                       <h3 className="font-semibold text-secondary-900 mb-1">Phone</h3>
-                      <p className="text-secondary-700">+1 (555) 123-4567</p>
+                      <p className="text-secondary-700">+91 98981 69824</p>
                       <p className="text-sm text-secondary-600">Available Mon-Fri, 9AM-6PM</p>
                     </div>
                   </div>
@@ -106,8 +106,8 @@ export default function ContactPage() {
                     </div>
                     <div>
                       <h3 className="font-semibold text-secondary-900 mb-1">Studio Location</h3>
-                      <p className="text-secondary-700">123 Art Street, Creative City, CC 12345</p>
-                      <p className="text-sm text-secondary-600">By appointment only</p>
+                      <p className="text-secondary-700">661, shiv vatika society, near juhika residency, nansad gam road, kamrej, surat, 394180 </p>
+                      {/* <p className="text-sm text-secondary-600">By appointment only</p> */}
                     </div>
                   </div>
                   

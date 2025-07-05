@@ -1,5 +1,6 @@
 import { google } from 'googleapis';
 import fs from 'fs';
+import os from 'os';
 
 const SCOPES = ['https://www.googleapis.com/auth/drive.file'];
 const FOLDER_ID = process.env.GOOGLE_DRIVE_FOLDER_ID;
@@ -118,8 +119,10 @@ export async function uploadToGoogleDrive(buffer: Buffer, filename: string, mime
   try {
     const { drive } = initializeGoogleAuth();
     
-    // Save buffer to a temp file
-    tempPath = `/tmp/tmp-${Date.now()}-${filename}`;
+    // Use OS temp directory for cross-platform compatibility
+    const tempDir = os.tmpdir();
+    tempPath = `${tempDir}/tmp-${Date.now()}-${filename}`;
+    console.log('Saving temp file to:', tempPath);
     fs.writeFileSync(tempPath, buffer);
 
     const fileMetadata = {

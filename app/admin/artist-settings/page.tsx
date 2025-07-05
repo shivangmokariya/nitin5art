@@ -12,6 +12,17 @@ interface ArtistSettings {
   aboutText: string;
 }
 
+// Helper to convert Google Drive share link to direct image link
+function getDirectImageUrl(url: string) {
+  if (!url) return '';
+  // Match Google Drive file ID
+  const match = url.match(/(?:\/d\/|id=)([\w-]{25,})/);
+  if (match) {
+    return `https://drive.google.com/uc?export=view&id=${match[1]}`;
+  }
+  return url;
+}
+
 export default function ArtistSettingsPage() {
   const router = useRouter();
   const [settings, setSettings] = useState<ArtistSettings>({
@@ -22,6 +33,7 @@ export default function ArtistSettingsPage() {
   });
   const [loading, setLoading] = useState(false);
   const [uploading, setUploading] = useState(false);
+  const [previewUrl, setPreviewUrl] = useState<string | null>(null);
   console.log(settings,'settings');
   useEffect(() => {
     fetchSettings();
@@ -42,21 +54,19 @@ export default function ArtistSettingsPage() {
   const handleImageUpload = async (event: React.ChangeEvent<HTMLInputElement>) => {
     const file = event.target.files?.[0];
     if (!file) return;
-
     setUploading(true);
+    // Show local preview
+    setPreviewUrl(URL.createObjectURL(file));
     const formData = new FormData();
     formData.append('file', file);
-
     try {
       const response = await fetch('/api/upload', {
         method: 'POST',
         body: formData,
       });
-
       if (!response.ok) {
         throw new Error('Upload failed');
       }
-
       const data = await response.json();
       setSettings(prev => ({ ...prev, artistImageUrl: data.url }));
       toast.success('Image uploaded successfully!');
@@ -111,11 +121,11 @@ export default function ArtistSettingsPage() {
           <label className="block text-sm font-medium text-secondary-700 mb-2">
             Current Image
           </label>
-          {settings.artistImageUrl && (
+          {previewUrl && (
             <div className="relative w-64 h-48 rounded-lg overflow-hidden border">
               <img
-                src={settings.artistImageUrl}
-                alt="Artist"
+                src={previewUrl}
+                alt="Artist Preview"
                 className="w-full h-full object-cover"
               />
             </div>

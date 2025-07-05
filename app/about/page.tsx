@@ -109,7 +109,7 @@ export default async function AboutPage() {
                 <div className="bg-primary-600 w-16 h-16 rounded-full flex items-center justify-center mx-auto mb-4">
                   <Palette className="h-8 w-8 text-white" />
                 </div>
-                <h3 className="text-2xl font-bold text-secondary-900 mb-2">500+</h3>
+                <h3 className="text-2xl font-bold text-secondary-900 mb-2">1500+</h3>
                 <p className="text-secondary-600">Artworks Created</p>
               </div>
               
@@ -125,7 +125,7 @@ export default async function AboutPage() {
                 <div className="bg-primary-600 w-16 h-16 rounded-full flex items-center justify-center mx-auto mb-4">
                   <Users className="h-8 w-8 text-white" />
                 </div>
-                <h3 className="text-2xl font-bold text-secondary-900 mb-2">200+</h3>
+                <h3 className="text-2xl font-bold text-secondary-900 mb-2">500+</h3>
                 <p className="text-secondary-600">Happy Collectors</p>
               </div>
               
@@ -133,7 +133,7 @@ export default async function AboutPage() {
                 <div className="bg-primary-600 w-16 h-16 rounded-full flex items-center justify-center mx-auto mb-4">
                   <Star className="h-8 w-8 text-white" />
                 </div>
-                <h3 className="text-2xl font-bold text-secondary-900 mb-2">4.9</h3>
+                <h3 className="text-2xl font-bold text-secondary-900 mb-2">5.0</h3>
                 <p className="text-secondary-600">Average Rating</p>
               </div>
             </div>
