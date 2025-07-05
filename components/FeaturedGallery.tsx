@@ -25,6 +25,7 @@ export default function FeaturedGallery() {
   const [paintings, setPaintings] = useState<Painting[]>([]);
   const [currentIndex, setCurrentIndex] = useState(0);
   const [loading, setLoading] = useState(true);
+  const [viewMode, setViewMode] = useState<'grid' | 'list'>('grid');
 
   useEffect(() => {
     const fetchFeaturedPaintings = async () => {
@@ -120,47 +121,58 @@ export default function FeaturedGallery() {
 
   return (
     <div className="relative">
-      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
-        {paintings.slice(currentIndex, currentIndex + 3).map((painting) => (
-          <div key={painting._id} className="group card overflow-hidden">
-            <div className="relative aspect-square rounded-lg overflow-hidden">
+      {/* View Mode Toggle */}
+      <div className="flex justify-end mb-4">
+        <button
+          onClick={() => setViewMode('grid')}
+          className={`px-4 py-2 rounded-l-lg border border-secondary-300 ${viewMode === 'grid' ? 'bg-primary-600 text-white' : 'bg-white text-secondary-700 hover:bg-secondary-50'}`}
+        >
+          Grid
+        </button>
+        <button
+          onClick={() => setViewMode('list')}
+          className={`px-4 py-2 rounded-r-lg border border-secondary-300 border-l-0 ${viewMode === 'list' ? 'bg-primary-600 text-white' : 'bg-white text-secondary-700 hover:bg-secondary-50'}`}
+        >
+          List
+        </button>
+      </div>
+      <div className={
+        viewMode === 'grid'
+          ? 'grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8'
+          : 'space-y-6'
+      }>
+        {paintings.map((painting) => (
+          <Link
+            key={painting._id}
+            href={`/gallery/${painting.slug || painting._id}`}
+            className={`group card overflow-hidden ${viewMode === 'list' ? 'flex' : ''}`}
+          >
+            <div className={`relative aspect-square rounded-lg overflow-hidden ${viewMode === 'list' ? 'w-48 h-48 flex-shrink-0' : ''}`}>
               <Image
                 src={painting.imageUrl}
                 alt={painting.seo.alt}
                 fill
                 className="object-cover group-hover:scale-110 transition-transform duration-300"
               />
-              <div className="absolute inset-0 bg-gradient-to-t from-black/60 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
-              
-              {/* Overlay actions */}
-              <div className="absolute inset-0 flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity duration-300">
-                <div className="flex space-x-4">
-                  <Link
-                    href={painting.slug ? `/gallery/${painting.slug}` : "#"}
-                    className="bg-white/90 hover:bg-white text-secondary-900 p-3 rounded-full transition-colors duration-200"
-                  >
-                    <Eye className="h-5 w-5" />
-                  </Link>
-                  <button className="bg-white/90 hover:bg-white text-secondary-900 p-3 rounded-full transition-colors duration-200">
-                    <Heart className="h-5 w-5" />
-                  </button>
-                </div>
-              </div>
             </div>
-            
-            <div className="p-6">
+            <div className={`p-6 ${viewMode === 'list' ? 'flex-1' : ''}`}>
               <h3 className="font-serif text-xl font-semibold text-secondary-900 mb-2 group-hover:text-primary-600 transition-colors duration-200">
                 {painting.title}
               </h3>
               <p className="text-secondary-600 text-sm mb-3 line-clamp-2">
                 {painting.description}
               </p>
-              <div className="flex justify-between items-center text-sm text-secondary-500">
+              <div className="flex justify-between items-center text-sm text-secondary-500 mb-3">
                 <span>{painting.medium}</span>
                 <span>{painting.size}</span>
               </div>
+              {painting.featured && (
+                <span className="text-xs bg-yellow-100 text-yellow-800 px-2 py-1 rounded-full">
+                  Featured
+                </span>
+              )}
             </div>
-          </div>
+          </Link>
         ))}
       </div>
       

@@ -36,7 +36,7 @@ console.log(categoryData,'categoryData');
       
       {/* Hero Section */}
       <section className="relative bg-gradient-to-br from-primary-50 to-secondary-50 overflow-hidden">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-20 lg:py-32">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 pt-8 pb-20 lg:pt-12 lg:pb-32">
           <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 items-center">
             <div className="animate-fade-in">
               <h1 className="text-4xl lg:text-6xl font-serif font-bold text-secondary-900 mb-6 leading-tight">

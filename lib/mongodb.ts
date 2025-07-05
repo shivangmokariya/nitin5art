@@ -6,7 +6,8 @@ if (!MONGODB_URI) {
   throw new Error('Please define the MONGODB_URI environment variable inside .env.local');
 }
 
-// Define a type-safe global cache for the mongoose connection
+// Define a type-safe global cache for th
+// e mongoose connection
 interface MongooseCache {
   conn: typeof mongoose | null;
   promise: Promise<typeof mongoose> | null;

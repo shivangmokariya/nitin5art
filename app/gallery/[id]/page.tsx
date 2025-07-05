@@ -212,10 +212,6 @@ export default function PaintingPage() {
                 <div className="flex items-center justify-between">
                   <div className="flex items-center space-x-4">
                     <button className="flex items-center space-x-2 text-secondary-600 hover:text-primary-600 transition-colors duration-200">
-                      <Eye className="h-5 w-5" />
-                      <span>{painting.views} views</span>
-                    </button>
-                    <button className="flex items-center space-x-2 text-secondary-600 hover:text-primary-600 transition-colors duration-200">
                       <Heart className="h-5 w-5" />
                       <span>Favorite</span>
                     </button>

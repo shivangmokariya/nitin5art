@@ -32,8 +32,14 @@ export default function Header() {
         <div className="flex justify-between items-center h-16">
           {/* Logo */}
           <Link href="/" className="flex items-center space-x-2">
-            <div className="w-8 h-8 bg-primary-600 rounded-full flex items-center justify-center">
-              <span className="text-white font-serif font-bold text-sm">A</span>
+            <div className="w-8 h-8 bg-primary-600 rounded-full flex items-center justify-center overflow-hidden">
+              <img
+                src="/favicon.png"
+                alt="Site Logo"
+                className="w-8 h-8 object-cover rounded-full"
+                onError={(e) => { e.currentTarget.style.display = 'none'; e.currentTarget.parentElement!.textContent = 'A'; }}
+              />
+              {/* Fallback 'A' will show if image fails */}
             </div>
             <span className="font-serif text-xl font-semibold text-secondary-900">
               Artist Gallery

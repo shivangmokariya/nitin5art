@@ -48,7 +48,15 @@ export default function AdminLayout({ children }: { children: React.ReactNode })
             {sidebarOpen ? <X className="h-6 w-6 text-primary-700" /> : <Menu className="h-6 w-6 text-primary-700" />}
           </button>
           <Link href="/admin" className="flex items-center space-x-2">
-            <span className="w-8 h-8 bg-primary-600 rounded-full flex items-center justify-center text-white font-serif font-bold text-lg">A</span>
+            <span className="w-8 h-8 bg-primary-600 rounded-full flex items-center justify-center text-white font-serif font-bold text-lg overflow-hidden">
+              <img
+                src="/favicon.png"
+                alt="Admin Logo"
+                className="w-8 h-8 object-cover rounded-full"
+                onError={(e) => { e.currentTarget.style.display = 'none'; e.currentTarget.parentElement!.textContent = 'A'; }}
+              />
+              {/* Fallback 'A' will show if image fails */}
+            </span>
             <span className="font-serif text-2xl font-bold text-primary-700">Admin Panel</span>
           </Link>
         </div>

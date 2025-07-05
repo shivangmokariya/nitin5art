@@ -2,9 +2,11 @@ import dbConnect from '@/lib/mongodb';
 import Painting from '@/models/Painting';
 import Header from '@/components/Header';
 import Footer from '@/components/Footer';
-import Image from 'next/image';
 import Link from 'next/link';
-import { Search, Filter, Grid, List, ChevronLeft, ChevronRight } from 'lucide-react';
+import { ChevronLeft, ChevronRight } from 'lucide-react';
+import dynamic from 'next/dynamic';
+
+const GalleryListClient = dynamic(() => import('@/components/GalleryListClient'), { ssr: false });
 
 interface Pagination {
   currentPage: number;
@@ -86,38 +88,8 @@ export default async function GalleryPage({ searchParams }: { searchParams: any 
                     {category !== 'all' && ` in ${categories.find(c => c.value === category)?.label}`}
                   </p>
                 </div>
-                {/* Gallery Grid */}
-                <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-8">
-                  {paintings.map((painting: any) => (
-                    <div key={painting._id} className="group card overflow-hidden">
-                      <div className="relative aspect-square rounded-lg overflow-hidden">
-                        <Image
-                          src={painting.imageUrl}
-                          alt={painting.seo?.alt || painting.title}
-                          fill
-                          className="object-cover group-hover:scale-110 transition-transform duration-300"
-                        />
-                      </div>
-                      <div className="p-6">
-                        <h3 className="font-serif text-xl font-semibold text-secondary-900 mb-2 group-hover:text-primary-600 transition-colors duration-200">
-                          {painting.title}
-                        </h3>
-                        <p className="text-secondary-600 text-sm mb-3 line-clamp-2">
-                          {painting.description}
-                        </p>
-                        <div className="flex justify-between items-center text-sm text-secondary-500 mb-3">
-                          <span>{painting.medium}</span>
-                          <span>{painting.size}</span>
-                        </div>
-                        {painting.featured && (
-                          <span className="text-xs bg-yellow-100 text-yellow-800 px-2 py-1 rounded-full">
-                            Featured
-                          </span>
-                        )}
-                      </div>
-                    </div>
-                  ))}
-                </div>
+                {/* Gallery List Client (Grid/List Toggle + Clickable Images) */}
+                <GalleryListClient paintings={paintings as any} />
                 {/* Pagination */}
                 {pagination.totalPages > 1 && (
                   <div className="mt-12 flex justify-center">
