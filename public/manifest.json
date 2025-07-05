@@ -1,0 +1,9 @@
+{
+  "name": "Artist Gallery",
+  "short_name": "Gallery",
+  "start_url": "/",
+  "display": "standalone",
+  "background_color": "#ffffff",
+  "theme_color": "#ed7519",
+  "description": "Professional Artist Gallery Website"
+} 
