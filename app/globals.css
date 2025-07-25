@@ -91,3 +91,10 @@
     opacity: 1;
   }
 } 
+
+.font-dancing-script {
+  font-family: var(--font-dancing-script), cursive;
+}
+.font-lora {
+  font-family: var(--font-lora), serif;
+} 

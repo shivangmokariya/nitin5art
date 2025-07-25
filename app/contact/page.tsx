@@ -1,7 +1,6 @@
 import type { Metadata } from 'next';
 import Link from 'next/link';
 import { ArrowRight, Mail, Phone, MapPin, Clock, MessageSquare } from 'lucide-react';
-import Header from '@/components/Header';
 import Footer from '@/components/Footer';
 import InquiryForm from '@/components/InquiryForm';
 
@@ -19,7 +18,6 @@ export const metadata: Metadata = {
 export default function ContactPage() {
   return (
     <>
-      <Header />
       
       <main className="min-h-screen bg-white">
         {/* Hero Section */}

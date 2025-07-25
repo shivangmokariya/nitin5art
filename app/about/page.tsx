@@ -2,7 +2,6 @@ import type { Metadata } from 'next';
 import Image from 'next/image';
 import Link from 'next/link';
 import { ArrowRight, Palette, Award, Users, Star } from 'lucide-react';
-import Header from '@/components/Header';
 import Footer from '@/components/Footer';
 import ArtistImage from '@/components/ArtistImage';
 import { getSiteSettings } from '@/lib/siteUtils';
@@ -24,7 +23,6 @@ export default async function AboutPage() {
 
   return (
     <>
-      <Header />
       
       <main className="min-h-screen bg-white">
         {/* Hero Section */}

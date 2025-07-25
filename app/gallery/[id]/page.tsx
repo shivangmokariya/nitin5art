@@ -5,7 +5,6 @@ import { useParams } from 'next/navigation';
 import Image from 'next/image';
 import Link from 'next/link';
 import { ArrowLeft, Eye, Heart, Share2, Mail, Calendar, Palette, Ruler } from 'lucide-react';
-import Header from '@/components/Header';
 import Footer from '@/components/Footer';
 import InquiryForm from '@/components/InquiryForm';
 
@@ -118,7 +117,6 @@ export default function PaintingPage() {
   if (loading) {
     return (
       <>
-        <Header />
         <main className="min-h-screen bg-secondary-50 py-12">
           <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
             <div className="animate-pulse">
@@ -142,7 +140,6 @@ export default function PaintingPage() {
   if (!painting && !loading) {
     return (
       <>
-        <Header />
         <main className="min-h-screen bg-secondary-50 py-12">
           <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
             <h1 className="text-2xl font-serif font-bold text-secondary-900 mb-4">
@@ -167,7 +164,6 @@ export default function PaintingPage() {
 
   return (
     <>
-      <Header />
       
       <main className="min-h-screen bg-secondary-50">
         {/* Breadcrumb */}

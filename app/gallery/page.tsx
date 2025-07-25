@@ -1,6 +1,5 @@
 import dbConnect from '@/lib/mongodb';
 import Painting from '@/models/Painting';
-import Header from '@/components/Header';
 import Footer from '@/components/Footer';
 import Link from 'next/link';
 import { ChevronLeft, ChevronRight } from 'lucide-react';
@@ -51,7 +50,6 @@ export default async function GalleryPage({ searchParams }: { searchParams: any 
 
   return (
     <>
-      <Header />
       <main className="min-h-screen bg-secondary-50">
         {/* Page Header */}
         <section className="bg-white shadow-sm">

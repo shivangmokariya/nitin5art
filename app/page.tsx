@@ -2,7 +2,6 @@ import type { Metadata } from 'next';
 import Image from 'next/image';
 import Link from 'next/link';
 import { ArrowRight, Star, Eye, Palette } from 'lucide-react';
-import Header from '@/components/Header';
 import Footer from '@/components/Footer';
 import FeaturedGallery from '@/components/FeaturedGallery';
 import HeroImage from '@/components/HeroImage';
@@ -32,14 +31,13 @@ export default async function HomePage() {
 console.log(categoryData,'categoryData');
   return (
     <>
-      <Header />
       
       {/* Hero Section */}
       <section className="relative bg-gradient-to-br from-primary-50 to-secondary-50 overflow-hidden">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 pt-8 pb-20 lg:pt-12 lg:pb-32">
           <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 items-center">
             <div className="animate-fade-in">
-              <h1 className="text-4xl lg:text-6xl font-serif font-bold text-secondary-900 mb-6 leading-tight">
+              <h1 className="font-dancing-script text-4xl lg:text-6xl font-bold text-secondary-900 mb-6 leading-tight">
                 Discover the Art of{' '}
                 <span className="text-primary-600">Emotion</span>
               </h1>
@@ -74,7 +72,7 @@ console.log(categoryData,'categoryData');
               <div className="absolute -top-6 -right-6 bg-white rounded-lg shadow-lg p-4">
                 <div className="flex items-center space-x-2">
                   <Eye className="h-5 w-5 text-primary-600" />
-                  <span className="font-semibold text-secondary-900">{siteStats.totalPaintings}+</span>
+                  <span className="font-semibold text-secondary-900">{500}+</span>
                 </div>
                 <p className="text-sm text-secondary-600">Artworks Created</p>
               </div>

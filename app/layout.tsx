@@ -1,10 +1,13 @@
 import type { Metadata } from 'next';
-import { Inter } from 'next/font/google';
+import { Inter, Lora, Dancing_Script } from 'next/font/google';
 import './globals.css';
 import { Toaster } from 'react-hot-toast';
 import { seedAdmin } from '@/lib/seedAdmin';
 import VisitLogger from '@/components/VisitLogger';
 import { getSiteSettings } from '@/lib/siteUtils';
+import LoaderOverlay from '@/components/LoaderOverlay';
+import React from 'react';
+import Header from '@/components/Header';
 
 if (typeof window === 'undefined') {
   // Only run on the server
@@ -12,6 +15,8 @@ if (typeof window === 'undefined') {
 }
 
 const inter = Inter({ subsets: ['latin'] });
+const lora = Lora({ subsets: ['latin'], variable: '--font-lora' });
+const dancingScript = Dancing_Script({ subsets: ['latin'], weight: ['400', '700'], variable: '--font-dancing-script' });
 
 export const metadata: Metadata = {
   title: {
@@ -78,14 +83,16 @@ export default async function RootLayout({
   const siteSettings = await getSiteSettings();
   const faviconUrl = siteSettings?.faviconUrl || '/favicon.ico';
   return (
-    <html lang="en">
+    <html lang="en" className={`${lora.variable} ${dancingScript.variable}`}>
       <head>
         <link rel="icon" href="/favicon.png" />
         <link rel="apple-touch-icon" href="/apple-touch-icon.png" />
         <link rel="manifest" href="/manifest.json" />
       </head>
-      <body className={inter.className}>
+      <body className="font-lora">
         <VisitLogger />
+        <Header />
+        <LoaderOverlay />
         {children}
         <Toaster
           position="top-right"

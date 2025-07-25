@@ -1,7 +1,43 @@
 "use client";
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import Image from 'next/image';
 import Link from 'next/link';
+
+function BrushLoader() {
+  return (
+    <div className="absolute inset-0 flex items-center justify-center z-10">
+      <svg width="80" height="80" viewBox="0 0 120 120" className="animate-spin-slow">
+        <ellipse
+          cx="60"
+          cy="60"
+          rx="50"
+          ry="50"
+          fill="none"
+          stroke="url(#brushGradient)"
+          strokeWidth="12"
+          strokeDasharray="40 30"
+          strokeLinecap="round"
+        />
+        <defs>
+          <linearGradient id="brushGradient" x1="0" y1="0" x2="120" y2="120" gradientUnits="userSpaceOnUse">
+            <stop stopColor="#f59e42" />
+            <stop offset="0.3" stopColor="#3b82f6" />
+            <stop offset="0.6" stopColor="#10b981" />
+            <stop offset="1" stopColor="#ef4444" />
+          </linearGradient>
+        </defs>
+      </svg>
+      <style jsx>{`
+        .animate-spin-slow {
+          animation: spin 1.2s linear infinite;
+        }
+        @keyframes spin {
+          100% { transform: rotate(360deg); }
+        }
+      `}</style>
+    </div>
+  );
+}
 
 interface Painting {
   _id: string;
@@ -20,6 +56,23 @@ interface Painting {
 
 export default function GalleryListClient({ paintings }: { paintings: Painting[] }) {
   const [viewMode, setViewMode] = useState<'grid' | 'list'>('grid');
+  // Track loading state for each image by id
+  const [loadingMap, setLoadingMap] = useState<{ [id: string]: boolean }>(() => {
+    const map: { [id: string]: boolean } = {};
+    paintings.forEach(p => { map[p._id] = true; });
+    return map;
+  });
+
+  // Reset loadingMap when paintings change
+  useEffect(() => {
+    const map: { [id: string]: boolean } = {};
+    paintings.forEach((p) => { map[p._id] = true; });
+    setLoadingMap(map);
+  }, [paintings]);
+
+  const handleImageLoad = (id: string) => {
+    setLoadingMap(prev => ({ ...prev, [id]: false }));
+  };
 
   return (
     <div className="relative">
@@ -50,11 +103,14 @@ export default function GalleryListClient({ paintings }: { paintings: Painting[]
             className={`group card overflow-hidden ${viewMode === 'list' ? 'flex' : ''}`}
           >
             <div className={`relative aspect-square rounded-lg overflow-hidden ${viewMode === 'list' ? 'w-48 h-48 flex-shrink-0' : ''}`}>
+              {loadingMap[painting._id] && <BrushLoader />}
               <Image
                 src={painting.imageUrl}
                 alt={painting.seo?.alt || painting.title}
                 fill
                 className="object-cover group-hover:scale-110 transition-transform duration-300"
+                onLoadingComplete={() => handleImageLoad(painting._id)}
+                onError={() => handleImageLoad(painting._id)}
               />
             </div>
             <div className={`p-6 ${viewMode === 'list' ? 'flex-1' : ''}`}>

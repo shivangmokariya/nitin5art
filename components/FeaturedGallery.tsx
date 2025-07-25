@@ -21,11 +21,56 @@ interface Painting {
   slug: string;
 }
 
+function BrushLoader() {
+  return (
+    <div className="absolute inset-0 flex items-center justify-center z-10">
+      <svg width="80" height="80" viewBox="0 0 120 120" className="animate-spin-slow">
+        <ellipse
+          cx="60"
+          cy="60"
+          rx="50"
+          ry="50"
+          fill="none"
+          stroke="url(#brushGradient)"
+          strokeWidth="12"
+          strokeDasharray="40 30"
+          strokeLinecap="round"
+        />
+        <defs>
+          <linearGradient id="brushGradient" x1="0" y1="0" x2="120" y2="120" gradientUnits="userSpaceOnUse">
+            <stop stopColor="#f59e42" />
+            <stop offset="0.3" stopColor="#3b82f6" />
+            <stop offset="0.6" stopColor="#10b981" />
+            <stop offset="1" stopColor="#ef4444" />
+          </linearGradient>
+        </defs>
+      </svg>
+      <style jsx>{`
+        .animate-spin-slow {
+          animation: spin 1.2s linear infinite;
+        }
+        @keyframes spin {
+          100% { transform: rotate(360deg); }
+        }
+      `}</style>
+    </div>
+  );
+}
+
 export default function FeaturedGallery() {
   const [paintings, setPaintings] = useState<Painting[]>([]);
   const [currentIndex, setCurrentIndex] = useState(0);
   const [loading, setLoading] = useState(true);
   const [viewMode, setViewMode] = useState<'grid' | 'list'>('grid');
+  // Track loading state for each image by id
+  const [loadingMap, setLoadingMap] = useState<{ [id: string]: boolean }>({});
+
+  // Reset loadingMap when paintings change
+  useEffect(() => {
+    const map: { [id: string]: boolean } = {};
+    paintings.forEach((p) => { map[p._id] = true; });
+    setLoadingMap(map);
+  }, [paintings]);
 
   useEffect(() => {
     const fetchFeaturedPaintings = async () => {
@@ -33,10 +78,14 @@ export default function FeaturedGallery() {
         const response = await fetch('/api/paintings?featured=true&limit=6');
         const data = await response.json();
         setPaintings(data.paintings || []);
+        // Set all images to loading initially
+        const map: { [id: string]: boolean } = {};
+        (data.paintings || []).forEach((p: Painting) => { map[p._id] = true; });
+        setLoadingMap(map);
       } catch (error) {
         console.error('Error fetching featured paintings:', error);
         // Fallback to sample data
-        setPaintings([
+        const fallback = [
           {
             _id: '1',
             title: 'Divine Tanjore',
@@ -76,7 +125,11 @@ export default function FeaturedGallery() {
             featured: true,
             slug: 'oil-masterpiece'
           }
-        ]);
+        ];
+        setPaintings(fallback);
+        const map: { [id: string]: boolean } = {};
+        fallback.forEach((p) => { map[p._id] = true; });
+        setLoadingMap(map);
       } finally {
         setLoading(false);
       }
@@ -84,6 +137,10 @@ export default function FeaturedGallery() {
 
     fetchFeaturedPaintings();
   }, []);
+
+  const handleImageLoad = (id: string) => {
+    setLoadingMap(prev => ({ ...prev, [id]: false }));
+  };
 
   const nextSlide = () => {
     setCurrentIndex((prevIndex) => 
@@ -148,11 +205,14 @@ export default function FeaturedGallery() {
             className={`group card overflow-hidden ${viewMode === 'list' ? 'flex' : ''}`}
           >
             <div className={`relative aspect-square rounded-lg overflow-hidden ${viewMode === 'list' ? 'w-48 h-48 flex-shrink-0' : ''}`}>
+              {loadingMap[painting._id] && <BrushLoader />}
               <Image
                 src={painting.imageUrl}
                 alt={painting.seo.alt}
                 fill
                 className="object-cover group-hover:scale-110 transition-transform duration-300"
+                onLoadingComplete={() => handleImageLoad(painting._id)}
+                onError={() => handleImageLoad(painting._id)}
               />
             </div>
             <div className={`p-6 ${viewMode === 'list' ? 'flex-1' : ''}`}>
@@ -175,7 +235,6 @@ export default function FeaturedGallery() {
           </Link>
         ))}
       </div>
-      
       {/* Navigation arrows */}
       {paintings.length > 3 && (
         <>
@@ -195,4 +254,4 @@ export default function FeaturedGallery() {
       )}
     </div>
   );
-} 
+}

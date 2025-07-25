@@ -85,24 +85,34 @@ export default function Footer() {
           <div>
             <h3 className="font-serif text-lg font-semibold mb-4">Contact</h3>
             <ul className="space-y-2 text-secondary-300">
-              <li>Email: support@nitin5art.com</li>
               <li>Phone: +91 98981 69824</li>
-              <li>Address: 661, shiv vatika society, near juhika residency, nansad gam road, kamrej, surat, 394180 </li>
+              <div className="mb-2">
+                <span className="font-semibold">Email:</span>{' '}
+                <a href="mailto:support@nitin5art.com" className="hover:underline text-primary-400">
+                  support@nitin5art.com
+                </a>
+              </div>
+              <div className="mb-2">
+                <span className="font-semibold">Address:</span>{' '}
+                <a href="https://maps.app.goo.gl/LZHUz3R8T4aQPdt58" target="_blank" rel="noopener noreferrer" className="hover:underline text-primary-400">
+                  661, shiv vatika society, near juhika residency, nansad gam road, kamrej, surat, 394180
+                </a>
+              </div>
             </ul>
           </div>
         </div>
 
         <div className="border-t border-secondary-800 mt-8 pt-8 flex flex-col md:flex-row justify-between items-center">
           <p className="text-secondary-400 text-sm">
-            © {currentYear} Artist Gallery. All rights reserved.
+            © {currentYear} Nitin's Art Gallery. All rights reserved.
           </p>
           <div className="flex space-x-6 mt-4 md:mt-0">
-            <Link href="/privacy" className="text-secondary-400 hover:text-white text-sm transition-colors duration-200">
+            {/* <Link href="/privacy" className="text-secondary-400 hover:text-white text-sm transition-colors duration-200">
               Privacy Policy
             </Link>
             <Link href="/terms" className="text-secondary-400 hover:text-white text-sm transition-colors duration-200">
               Terms of Service
-            </Link>
+            </Link> */}
           </div>
         </div>
       </div>

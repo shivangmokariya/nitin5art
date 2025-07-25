@@ -41,8 +41,8 @@ export default function Header() {
               />
               {/* Fallback 'A' will show if image fails */}
             </div>
-            <span className="font-serif text-xl font-semibold text-secondary-900">
-              Artist Gallery
+            <span className="font-dancing-script text-2xl font-bold text-secondary-900">
+              Nitin's Art Gallery
             </span>
           </Link>
 
