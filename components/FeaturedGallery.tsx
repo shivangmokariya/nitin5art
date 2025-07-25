@@ -1,6 +1,6 @@
 'use client';
 
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useRef } from 'react';
 import Image from 'next/image';
 import Link from 'next/link';
 import { ChevronLeft, ChevronRight, Eye, Heart } from 'lucide-react';
@@ -207,6 +207,12 @@ export default function FeaturedGallery() {
             <div className={`relative aspect-square rounded-lg overflow-hidden ${viewMode === 'list' ? 'w-48 h-48 flex-shrink-0' : ''}`}>
               {loadingMap[painting._id] && <BrushLoader />}
               <Image
+                ref={el => {
+                  // Check if image is already loaded from cache
+                  if (el && el.complete && loadingMap[painting._id]) {
+                    handleImageLoad(painting._id);
+                  }
+                }}
                 src={painting.imageUrl}
                 alt={painting.seo.alt}
                 fill
@@ -236,6 +242,8 @@ export default function FeaturedGallery() {
         ))}
       </div>
       {/* Navigation arrows */}
+      {/* Remove the navigation arrows if not functional */}
+      {/*
       {paintings.length > 3 && (
         <>
           <button
@@ -252,6 +260,7 @@ export default function FeaturedGallery() {
           </button>
         </>
       )}
+      */}
     </div>
   );
 }

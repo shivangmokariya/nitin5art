@@ -1,5 +1,5 @@
 "use client";
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useRef } from 'react';
 import Image from 'next/image';
 import Link from 'next/link';
 
@@ -105,6 +105,12 @@ export default function GalleryListClient({ paintings }: { paintings: Painting[]
             <div className={`relative aspect-square rounded-lg overflow-hidden ${viewMode === 'list' ? 'w-48 h-48 flex-shrink-0' : ''}`}>
               {loadingMap[painting._id] && <BrushLoader />}
               <Image
+                ref={el => {
+                  // Check if image is already loaded from cache
+                  if (el && el.complete && loadingMap[painting._id]) {
+                    handleImageLoad(painting._id);
+                  }
+                }}
                 src={painting.imageUrl}
                 alt={painting.seo?.alt || painting.title}
                 fill
